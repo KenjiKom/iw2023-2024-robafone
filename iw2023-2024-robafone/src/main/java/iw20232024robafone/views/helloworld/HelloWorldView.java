@@ -8,7 +8,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
-import iw20232024robafone.views.MainLayout;
+import iw20232024robafone.ui.MainLayout;
 
 @PageTitle("Hello World")
 @Route(value = "hello", layout = MainLayout.class)

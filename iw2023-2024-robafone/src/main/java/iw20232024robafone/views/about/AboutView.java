@@ -7,7 +7,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
-import iw20232024robafone.views.MainLayout;
+import iw20232024robafone.ui.MainLayout;
 
 @PageTitle("About")
 @Route(value = "about", layout = MainLayout.class)
