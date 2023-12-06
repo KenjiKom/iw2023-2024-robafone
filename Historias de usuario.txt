@@ -1,0 +1,20 @@
+Front-End:
+Historia de usuario - 1:
+Como usuario (independiente de cliente o trabajador), quiero tener una vista del inicio de sesión, la cual me pida mi correo y mi contraseña, así como una opción para poder registrarme (El registro pedira el correo, la contraseña y repetir la contraseña).
+
+Historia de usuario - 2:
+Como cliente, en mi front-office deben verse todas las opciones que tengo contempladas: opción para contratar servicios, consultar los que ya tengo contratados, descargar facturas y compartir datos. Todos estos como botones que llevaran a sus respectivas vistas.
+
+Historia de usuario - 3:
+Como empleado, en mi back-office deben verse todas las opciones que tengo comtempladas dependiendo de mi departamento: si soy de ventas, la opcion de gestionar características y tarifas, por ejemplo. Todos estos como botones que llevaran a sus respectivas vistas.
+
+Back-end:
+Historia de usuario - 1:
+Como usuario (independiente de cliente o trabajador), quiero que al hacer click en iniciar sesión, el sistema comprueba que tanto mi correo como mi contraseña estén dentro de la base de datos, dandome acceso a mi respectivo main view. En caso de rellenar y clickear en registro, el sistema primero comprueba que dicho usuario no existe ya en la base de datos, y en ese caso, se introduzca en esta.
+
+Historia de usuario - 2: 
+Como cliente, una vez iniciado sesion, el sistema comrpueba en la base de datos que soy de tipo cliente, y me lleva a mi respectiva vista.
+
+Historia de usuario - 3:
+Como empleado, el sistema no solo mira en la base de datos que soy empleado, sino que tambien mirara mi tipo de empleado. Si no tengo ningun tipo, saltará un error.
+
