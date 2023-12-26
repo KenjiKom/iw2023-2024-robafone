@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class Client extends User {
+public class Client extends Usuario {
 
     @NotNull
     private double monthlyVolume;

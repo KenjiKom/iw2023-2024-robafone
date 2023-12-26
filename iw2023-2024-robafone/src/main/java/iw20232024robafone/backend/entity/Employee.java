@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class Employee extends User {
+public class Employee extends Usuario {
 
     @NotNull
     private int department;
