@@ -1,6 +1,5 @@
 package iw20232024robafone.views.front_office;
 
-
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -8,13 +7,16 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import iw20232024robafone.security.SecurityService;
 import jakarta.annotation.security.RolesAllowed;
 
 @RolesAllowed("CLIENT")
 @Route("client")
 public class FrontOfficeMainView extends VerticalLayout {
+    private final SecurityService securityService;
 
-    public FrontOfficeMainView(){
+    public FrontOfficeMainView(SecurityService securityService){
+        this.securityService = securityService;
         //Set the layout to be centered in the page.
         setSizeFull();
         setAlignItems(Alignment.CENTER);
@@ -34,7 +36,10 @@ public class FrontOfficeMainView extends VerticalLayout {
         Button shareButton = new Button("Share data", event -> UI.getCurrent().navigate("share"));
         shareButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        FormLayout formLayout = new FormLayout(hireButton, consultButton, downloadButton, shareButton);
+        Button logout = new Button("Log out ", e -> securityService.logout());
+        logout.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        FormLayout formLayout = new FormLayout(hireButton, consultButton, downloadButton, shareButton, logout);
 
         add(title, formLayout);
     }

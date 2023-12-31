@@ -30,15 +30,25 @@ public class Application implements AppShellConfigurator {
     public CommandLineRunner loadData(UsuarioRepository usuarioRepository) {
 
         return (args) -> {
-            Usuario u = new Usuario();
-            u.setUsername("user");
-            u.setFirstName("Pepe");
-            u.setLastName("Gonzalez");
-            u.setPhoneNumber("66666666");
-            u.setEmail("pepegonza@gmail.com");
-            u.setRole("CLIENT");
-            u.setPassword(SecurityService.passwordEncoder().encode("1234"));
-            usuarioRepository.save(u);
+            Usuario u1 = new Usuario();
+            u1.setUsername("user1");
+            u1.setFirstName("Pepe");
+            u1.setLastName("Gonzalez");
+            u1.setPhoneNumber("666666666");
+            u1.setEmail("pepegonza@gmail.com");
+            u1.setRole("CLIENT");
+            u1.setPassword(SecurityService.passwordEncoder().encode("1234"));
+            usuarioRepository.save(u1);
+
+            Usuario u2 = new Usuario();
+            u2.setUsername("user2");
+            u2.setFirstName("Maria");
+            u2.setLastName("Fernandez");
+            u2.setPhoneNumber("654332322");
+            u2.setEmail("mariafer@gmail.com");
+            u2.setRole("EMPLOYEE");
+            u2.setPassword(SecurityService.passwordEncoder().encode("5678"));
+            usuarioRepository.save(u2);
         };
     }
 }

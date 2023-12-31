@@ -8,11 +8,15 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import iw20232024robafone.security.SecurityService;
+import jakarta.annotation.security.RolesAllowed;
 
+@RolesAllowed("EMPLOYEE")
 @Route("internal")
 public class BackOfficeMainView extends VerticalLayout {
-
-    public BackOfficeMainView() {
+    private final SecurityService securityService;
+    public BackOfficeMainView(SecurityService securityService) {
+        this.securityService = securityService;
         //Set the layout to be centered in the page.
         setSizeFull();
         setAlignItems(Alignment.CENTER);
@@ -37,7 +41,10 @@ public class BackOfficeMainView extends VerticalLayout {
         Button ratesButton = new Button("Manage currect rates", event -> UI.getCurrent().navigate("rates"));
         ratesButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        FormLayout formLayout = new FormLayout(contractsButton, ticketsButton, billButton, charasteristicsButton, ratesButton);
+        Button logout = new Button("Log out ", e -> securityService.logout());
+        logout.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        FormLayout formLayout = new FormLayout(contractsButton, ticketsButton, billButton, charasteristicsButton, ratesButton, logout);
 
         add(title,disclaimer, formLayout);
 
