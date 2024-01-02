@@ -7,8 +7,8 @@ import com.vaadin.flow.router.Route;
 
 @Route("bills")
 public class DownloadBillsMainView  extends VerticalLayout {
-    public DownloadBillsMainView {
-
+    public DownloadBillsMainView () {
+    /*
         H1 title = new H1("Download Past Bills");
         
         //Error cause we need the Bill entity
@@ -26,5 +26,7 @@ public class DownloadBillsMainView  extends VerticalLayout {
             // selection.getAllSelectedItems().size());
         });
         add(title, grid);
+
+     */
     }
 }

@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Bean;
  *
  */
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
-@Theme(value="my-theme", variant= Lumo.DARK)
+@Theme(value="iw-robafone", variant= Lumo.DARK)
 public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {
