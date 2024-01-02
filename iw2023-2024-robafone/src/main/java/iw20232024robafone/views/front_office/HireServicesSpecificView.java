@@ -6,7 +6,9 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.RolesAllowed;
 
+@RolesAllowed("CLIENT")
 @Route("hire_service")
 public class HireServicesSpecificView extends VerticalLayout {
     public HireServicesSpecificView (){

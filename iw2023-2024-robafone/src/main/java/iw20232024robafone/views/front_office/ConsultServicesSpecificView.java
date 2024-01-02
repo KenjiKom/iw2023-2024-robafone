@@ -6,7 +6,9 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.RolesAllowed;
 
+@RolesAllowed("CLIENT")
 @Route("consult_service")
 public class ConsultServicesSpecificView extends VerticalLayout {
     public ConsultServicesSpecificView(){
@@ -25,9 +27,9 @@ public class ConsultServicesSpecificView extends VerticalLayout {
         Button deleteButton =  new Button("End existing contract");
         deleteButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
-        FormLayout formLayout = new FormLayout(title);
+        FormLayout formLayout = new FormLayout(title, deleteButton);
 
-        add(formLayout);
+        add(title, deleteButton);
 
     }
 }
