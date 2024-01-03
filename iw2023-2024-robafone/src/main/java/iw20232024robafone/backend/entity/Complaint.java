@@ -11,10 +11,13 @@ import java.util.Date;
 public class Complaint extends AbstractEntity {
     @NotEmpty
     private Date dateComplaint;
+
     @NotEmpty
     private String reason = "";
+
     @NotEmpty
     private String Message = "";
+
     @ManyToOne
     private Client client;
 

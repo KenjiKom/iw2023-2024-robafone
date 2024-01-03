@@ -9,9 +9,9 @@ import java.util.Set;
 
 @Entity
 public class Employee extends Usuario {
-
     @NotNull
     private int department;
+
     public int getDepartment() {
         return department;
     }

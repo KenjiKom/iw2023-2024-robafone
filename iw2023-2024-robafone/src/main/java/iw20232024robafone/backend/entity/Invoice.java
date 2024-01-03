@@ -1,0 +1,58 @@
+package iw20232024robafone.backend.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.Date;
+
+@Entity
+public class Invoice extends AbstractEntity {
+    @NotEmpty
+    private Date invoiceDate;
+
+    @NotNull
+    private double cost;
+
+    @ManyToOne
+    private Client client;
+
+    @ManyToOne
+    private Employee employee;
+
+    @ManyToOne
+    private Service service;
+
+    public Date getInvoiceDate() {
+        return invoiceDate;
+    }
+
+    public void setInvoiceDate(Date invoiceDate) {
+        this.invoiceDate = invoiceDate;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+}
