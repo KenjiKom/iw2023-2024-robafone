@@ -20,35 +20,19 @@ public class Sms extends AbstractEntity {
     @ManyToOne
     private Client client;
 
-    public Date getSmsDate() {
-        return smsDate;
-    }
+    public Date getSmsDate() { return smsDate; }
 
-    public void setSmsDate(Date smsDate) {
-        this.smsDate = smsDate;
-    }
+    public void setSmsDate(Date smsDate) { this.smsDate = smsDate; }
 
-    public String getMessage() {
-        return message;
-    }
+    public String getMessage() { return message; }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    public void setMessage(String message) { this.message = message; }
 
-    public String getSender() {
-        return sender;
-    }
+    public String getSender() { return sender; }
 
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
+    public void setSender(String sender) { this.sender = sender; }
 
-    public Client getClient() {
-        return client;
-    }
+    public Client getClient() { return client; }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
+    public void setClient(Client client) { this.client = client; }
 }

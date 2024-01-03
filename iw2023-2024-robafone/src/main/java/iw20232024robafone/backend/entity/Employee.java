@@ -11,6 +11,7 @@ import java.util.Set;
 public class Employee extends Usuario {
     @NotNull
     private int department;
+
     public int getDepartment() {
         return department;
     }

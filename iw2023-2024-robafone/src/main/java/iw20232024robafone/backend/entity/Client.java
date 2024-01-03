@@ -34,11 +34,7 @@ public class Client extends Usuario {
         this.dataUsage = dataUsage;
     }
 
-    public List<Service> getServices() {
-        return services;
-    }
+    public List<Service> getServices() { return services; }
 
-    public void setServices(List<Service> services) {
-        this.services = services;
-    }
+    public void setServices(List<Service> services) { this.services = services; }
 }
