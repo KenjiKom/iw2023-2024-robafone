@@ -5,6 +5,7 @@ import iw20232024robafone.backend.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +21,8 @@ public class ClientService {
     public List<Client> findAll() {
         return clientRepository.findAll();
     }
+
+    public Optional<Client> findClient(Client client) {return clientRepository.findById(client.getId()); }
 
     public long count() {
         return clientRepository.count();
