@@ -7,6 +7,7 @@ import iw20232024robafone.backend.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +23,8 @@ public class EmployeeService {
     public List<Employee> findAll() {
         return employeeRepository.findAll();
     }
+
+    public Optional<Employee> findEmployee(Employee employee) {return employeeRepository.findById(employee.getId()); }
 
     public long count() {
         return employeeRepository.count();
