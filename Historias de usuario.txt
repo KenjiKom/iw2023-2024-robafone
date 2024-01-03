@@ -8,6 +8,30 @@ Como cliente, en mi front-office deben verse todas las opciones que tengo contem
 Historia de usuario - 3:
 Como empleado, en mi back-office deben verse todas las opciones que tengo comtempladas dependiendo de mi departamento: si soy de ventas, la opcion de gestionar características y tarifas, por ejemplo. Todos estos como botones que llevaran a sus respectivas vistas.
 
+Historia de usuario - 4:
+Como cliente, al clickear en la opcion de "contratar servicios", se me abrirá una lista con todos los servicios que ofrece la compañia (grid, botones, elije lo que veas). Al hacer click en uno de estos servicios ("más detalles"), me aparecera una nueva ventana con la descripción del servicio, así como la opcion de contratarlo (boton grande y de color llamativo).
+
+Historia de usuario - 5:
+Como cliente, al clickear en la opcion de "Consultar servicios", se me abrirá una lista con todos los servicios que tengo contratados (grid, botones, elije lo que veas). Al hacer click en uno de estos servicios ("más detalles"), me aparecera una nueva ventana con la descripción del servicio, así como la opcion de terminar el contrato(boton grande y de poco llamativo).
+
+Historia de usuario - 6:
+Como cliente, al clickear en la opcion de "Descargar facturas", se me abrirá una lista con todas las factuiras que tengo generadas por contratar nuevos servicios o servicios ya contratados que cobran mensualmente (grid, botones, elije lo que veas). Al hacer click en uno de estas facturas ("Descargar en formato PDF"), me descargará dicha factura en formato PDF (Investigar como hacer esto)
+
+Historia de usuario - 7:
+Como usuario, debo tener la opcion de Realizar consultas o reclamaciones. Al clickear en esa opción en mi vista principal, debe aparecerme un cuadro con el motivo de la reclamacion y otro cuadro para escribirlo (como un e-mail). Al clickear en "Enviar", nos muestra un mensaje de que se envió correctamente y se me devuelve a mi vista principal.
+
+Historia de usuario - 8:
+Como empleado, debo tener una opción para gestionar servicios y tarifas. Al clickear en esa opción, se me abrirá una lista con todos los servicios que ofrece la compañia (como el de cliente). Al hacer click en uno de estos servicios, me aparecerá una ventana donde puedo modificar cualquiera de sus atributos (Tipo, Precio y Descripción). Al modificar un servicio, se avisa con un mensaje de que se modificó correctamente y se vuelve a la lista de servicios.
+
+Historia de usuario - 9: 
+Como empleado, debo tener un opcion de gestionar los contratos de los clientes (lista de clientes). Al clickear en esa opción, se me abrirá una lista con todos los clientes de  la compañia (como el anterior). Al hacer click en uno de estos clientes, me aparecerá una ventana donde puedo modificar cualquiera de sus atributos (Nombre, Apellidos, Telefono, etc...). Al modificar un cliente, se avisa con un mensaje de que se modificó correctamente y se vuelve a la lista de clientes.
+
+Historia de usuario - 10: 
+Como empleado, debo tener un opcion de Emitir factura. Al clickear en esa opción, se me abrirá una lista con todos los clientes de  la compañia (como el anterior). Al hacer click en uno de estos clientes, me aparecerá una ventana donde aparecen todos los servicios del clientes junto a sus precios. El empleado puede elegir uno de estos servicios y clickear en "Enviar Factura", para enviarle al cliente la factura de este servicio. Una vez enviado, nos avisará con un mensaje de que se envió correctamente y se nos enviará a la vista del cliente con sus servicios.
+
+Historia de usuario - 11: 
+Como empleado, debo tener un opcion de Gestionar consultas/reclamaciones con clientes. Al clickear en esa opción, se me abrirá una lista con todos los clientes de  la compañia (como el anterior). Al hacer click en uno de estos clientes, me aparecerá una ventana donde aparecen todas las reclamaciones de dicho cliente, junto a su número de telefono y e-mail. Como se entiende que el empleado contacta fisicamente con dicho cliente, al entrar en unas de estas reclamaciones, solo aparecerá la información de dicha factura (Tipo, Motivo y Descripción) más un boton de Eliminarla. Al clickear en eliminar, el sistema nos manda a la vista de reclamaciones de dicho cliente.
+
 Back-end:
 Historia de usuario - 1:
 Como usuario (independiente de cliente o trabajador), quiero que al hacer click en iniciar sesión, el sistema comprueba que tanto mi correo como mi contraseña estén dentro de la base de datos, dandome acceso a mi respectivo main view. En caso de rellenar y clickear en registro, el sistema primero comprueba que dicho usuario no existe ya en la base de datos, y en ese caso, se introduzca en esta.
@@ -17,4 +41,23 @@ Como cliente, una vez iniciado sesion, el sistema comrpueba en la base de datos 
 
 Historia de usuario - 3:
 Como empleado, el sistema no solo mira en la base de datos que soy empleado, sino que tambien mirara mi tipo de empleado. Si no tengo ningun tipo, saltará un error.
+
+Historia de usuario - 4:
+Como cliente, en la vista de "contratar servicios", se exponen todos los servicios que dicho cliente no tiene contratadas (no existe relación). 
+
+Historia de usuario - 5:
+Como cliente, en la vista de "contratar servicios", cuando clickeo en contratar dicho servicio, el sistema creará una relación entre esas dos entidades (de cliente a servicio).
+
+Historia de usuario - 6:
+Como cliente, en la vista de "Consultar servicios", se expondrán todos los servicios contratados por el cliente (existe una relación en la base de datos).
+
+Historia de usuario - 7:
+Como cliente, en la vista de "Consultar servicios", si se elige eliminarlo, se borrara dicha relación.
+
+Historia de usuario - 8:
+Como cliente, en la vista de "Descargar facturas",  se expondrán todas las facturas por el cliente (existe una relación en la base de datos).
+
+Historia de usuario - 9:
+Como usuario, debo tener la opcion de Realizar consultas o reclamaciones: En la que escribo mi consulta, la cual tendrá un motivo y un cuadro de texto donde escribirla. Está se envia con un botón y se guardará en la base de datos
+Dicha reclamación se crea y se relacion con este usuario.
 
