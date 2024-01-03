@@ -1,15 +1,28 @@
 package iw20232024robafone.views.back_office;
 
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.contextmenu.MenuItem;
+import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H5;
+import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.tabs.TabSheet;
+import com.vaadin.flow.component.tabs.TabSheetVariant;
 import com.vaadin.flow.router.Route;
 import iw20232024robafone.security.SecurityService;
 import jakarta.annotation.security.RolesAllowed;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @RolesAllowed("EMPLOYEE")
 @Route("internal")
@@ -19,34 +32,111 @@ public class BackOfficeMainView extends VerticalLayout {
         this.securityService = securityService;
         //Set the layout to be centered in the page.
         setSizeFull();
-        setAlignItems(Alignment.CENTER);
-        setJustifyContentMode(JustifyContentMode.CENTER);
+        setAlignItems(Alignment.STRETCH);
 
-        H1 title = new H1("Robafone for Employees");
+        TabSheet tabSheet = new TabSheet();
 
-        H5 disclaimer = new H5("Ahora mismo se vern todas las opciones por que falta el backend que compruebe de que tipo es el empleado");
+        //Components for 1st tab----------------------------------------------
+        Text hire_title = new Text("Sales And Marketing Internal Tools");
 
-        Button contractsButton = new Button("Manage Contracts", event -> UI.getCurrent().navigate("contracts"));
-        contractsButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        Button fiberButton = new Button("Manage Characteristics", event -> UI.getCurrent().navigate("chararteristics"));
+        fiberButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        Button ticketsButton = new Button("Consult open tickets", event -> UI.getCurrent().navigate("tickets"));
-        ticketsButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        Button phoneButton = new Button("Manage Current Rates", event -> UI.getCurrent().navigate("rates"));
+        phoneButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        Button billButton = new Button("Billing", event -> UI.getCurrent().navigate("billing"));
-        billButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        VerticalLayout formLayout = new VerticalLayout(fiberButton, phoneButton);
 
-        Button charasteristicsButton = new Button("Manage characteristics", event -> UI.getCurrent().navigate("characteristics"));
-        charasteristicsButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        formLayout.setWidthFull();
+        formLayout.setAlignItems(Alignment.STRETCH);
+        formLayout.setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
 
-        Button ratesButton = new Button("Manage currect rates", event -> UI.getCurrent().navigate("rates"));
-        ratesButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        tabSheet.add("Sales and Marketing",
+                new Div(hire_title, formLayout));
 
+        //End of 1st tab-------------------------------------------------------
+
+        //Components for 2nd tab----------------------------------------------
+        Text consult_title = new Text("Customer Services Internal Tools");
+
+        Button monthlyButton = new Button("Manage Contracts", event -> UI.getCurrent().navigate("contracts"));
+        monthlyButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        Button callButton = new Button("Consult Open User Tickets", event -> UI.getCurrent().navigate("tickets"));
+        callButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        VerticalLayout tabTwoLayout = new VerticalLayout(monthlyButton, callButton);
+
+        tabTwoLayout.setWidthFull();
+        tabTwoLayout.setAlignItems(Alignment.STRETCH);
+        tabTwoLayout.setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
+        tabSheet.add("Customer Services",
+                new Div(consult_title, tabTwoLayout));
+        //End of components of 2nd tab---------------------------------------
+
+        //Components for 3rd tab---------------------------------------------
+
+        VerticalLayout gridLayout = new VerticalLayout();
+
+        //Temporary grid until we have data
+        Text tabThreeTitle = new Text("Billing Internal Tools");
+
+        Button billingButton = new Button("Billing", event -> UI.getCurrent().navigate("contracts"));
+        billingButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        VerticalLayout tabThreeLayout = new VerticalLayout(billingButton);
+
+        tabThreeLayout.setWidthFull();
+        tabThreeLayout.setAlignItems(Alignment.STRETCH);
+        tabThreeLayout.setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
+
+        tabSheet.add("Finance",
+                new Div(tabThreeTitle, tabThreeLayout));
+        //End of components of 3rd tab---------------------------------------
+
+        //Some adjustments for the tabs
+        tabSheet.addThemeVariants(TabSheetVariant.LUMO_TABS_CENTERED);
+        tabSheet.addThemeVariants(TabSheetVariant.LUMO_TABS_EQUAL_WIDTH_TABS);
+
+        add(createHeaderContent(), tabSheet);
+
+    }
+    private Component createHeaderContent() {
+        HorizontalLayout layout = new HorizontalLayout();
+
+        // Configure styling for the header
+        layout.setId("header");
+        layout.getThemeList().set("dark", true);
+        layout.setWidthFull();
+        layout.setSpacing(true);
+        layout.setAlignItems(Alignment.CENTER);
+
+        MenuBar menuBar = new MenuBar();
+
+        Div icon = new Div(new Avatar());
+
+        icon.getStyle().set("background-color", "transparent");
+
+        MenuItem item = menuBar.addItem(icon);
+        item.getStyle().set("background-color", "transparent");
+        SubMenu subItems = item.getSubMenu();
         Button logout = new Button("Log out ", e -> securityService.logout());
-        logout.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        logout.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
-        FormLayout formLayout = new FormLayout(contractsButton, ticketsButton, billButton, charasteristicsButton, ratesButton, logout);
+        subItems.addItem(logout);
 
-        add(title,disclaimer, formLayout);
+        menuBar.getStyle().set("background-color", "transparent");
+        layout.add(menuBar);
+        layout.setAlignSelf(Alignment.END, icon);
 
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        // Placeholder for the title of the current view.
+        // The title will be set after navigation.
+        layout.add(new H1(currentPrincipalName.toUpperCase() +", Welcome to Robafone Internal"));
+
+        return layout;
     }
 }
