@@ -28,10 +28,12 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         login.setAction("login");
 
-        Button primaryButton = new Button("Register", event -> UI.getCurrent().navigate("register"));
+        Button primaryButton = new Button("Register As a Client", event -> UI.getCurrent().navigate("client_register"));
+        Button secundaryButton = new Button("Register As a Employee", event -> UI.getCurrent().navigate("employee_verification"));
         primaryButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        secundaryButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        add(new H1("Robafone Login"), login,new H6("Not registered?"), primaryButton);
+        add(new H1("Robafone Login"), login, new H6("Not registered?"), primaryButton, new H6("Are you an Employee?"), secundaryButton);
     }
 
     @Override

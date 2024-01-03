@@ -12,11 +12,11 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @AnonymousAllowed
-@Route("register")
-@PageTitle("Register | Robafone")
-public class RegisterView extends VerticalLayout {
+@Route("employee_register")
+@PageTitle("Register for Employees| Robafone")
+public class EmployeeRegisterView extends VerticalLayout {
 
-    public RegisterView(){
+    public EmployeeRegisterView(){
 
         //Set the layout to be centered in the page.
         setSizeFull();
