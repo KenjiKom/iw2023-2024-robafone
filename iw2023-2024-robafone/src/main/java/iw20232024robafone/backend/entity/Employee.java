@@ -13,9 +13,6 @@ public class Employee extends Usuario {
     @NotNull
     private int department;
 
-    @OneToMany(mappedBy = "Employee")
-    private Set<Complaint> complaints = new HashSet<Complaint>();
-
     public int getDepartment() {
         return department;
     }

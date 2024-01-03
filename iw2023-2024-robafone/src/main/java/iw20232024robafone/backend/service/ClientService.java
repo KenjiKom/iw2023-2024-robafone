@@ -14,15 +14,12 @@ public class ClientService {
     private static final Logger LOGGER = Logger.getLogger(ClientService.class.getName());
     private final ClientRepository clientRepository;
 
-    public ClientService(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
 
-    public List<Client> findAll() {
-        return clientRepository.findAll();
-    }
+    public ClientService(ClientRepository clientRepository) { this.clientRepository = clientRepository; }
 
-    public Optional<Client> findClient(Client client) {return clientRepository.findById(client.getId()); }
+    public List<Client> findAll() { return clientRepository.findAll(); }
+
+    public Optional<Client> findClient(Client client) { return clientRepository.findById(client.getId()); }
 
     public long count() {
         return clientRepository.count();

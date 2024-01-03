@@ -16,13 +16,10 @@ public class EmployeeService {
     private static final Logger LOGGER = Logger.getLogger(EmployeeService.class.getName());
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
 
-    public List<Employee> findAll() {
-        return employeeRepository.findAll();
-    }
+    public EmployeeService(EmployeeRepository employeeRepository) { this.employeeRepository = employeeRepository; }
+
+    public List<Employee> findAll() { return employeeRepository.findAll(); }
 
     public Optional<Employee> findEmployee(Employee employee) {return employeeRepository.findById(employee.getId()); }
 
