@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-public class Service extends AbstractEntity {
+public class Servicio extends AbstractEntity {
     @NotEmpty
     private String type = "";
 

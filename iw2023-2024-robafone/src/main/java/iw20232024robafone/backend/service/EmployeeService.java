@@ -1,8 +1,6 @@
 package iw20232024robafone.backend.service;
 
-import iw20232024robafone.backend.entity.Client;
 import iw20232024robafone.backend.entity.Employee;
-import iw20232024robafone.backend.repository.ClientRepository;
 import iw20232024robafone.backend.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +13,6 @@ import java.util.logging.Logger;
 public class EmployeeService {
     private static final Logger LOGGER = Logger.getLogger(EmployeeService.class.getName());
     private final EmployeeRepository employeeRepository;
-
 
     public EmployeeService(EmployeeRepository employeeRepository) { this.employeeRepository = employeeRepository; }
 

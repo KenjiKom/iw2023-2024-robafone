@@ -22,7 +22,7 @@ public class Invoice extends AbstractEntity {
     private Employee employee;
 
     @ManyToOne
-    private Service service;
+    private Servicio service;
 
     public Date getInvoiceDate() {
         return invoiceDate;
@@ -55,4 +55,8 @@ public class Invoice extends AbstractEntity {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+    public Servicio getService() { return service; }
+
+    public void setService(Servicio service) { this.service = service; }
 }
