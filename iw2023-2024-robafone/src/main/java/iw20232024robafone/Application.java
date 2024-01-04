@@ -76,6 +76,7 @@ public class Application implements AppShellConfigurator {
             employee2.setPassword(SecurityService.passwordEncoder().encode("yonosabia"));
             employeeRepository.save(employee2);
 
+            /*
             Call call1 = new Call();
             Date date1 = new Date("04/10/2001");
             call1.setCallDate(date1);
@@ -144,6 +145,8 @@ public class Application implements AppShellConfigurator {
             invoice2.setClient(client2);
             invoice2.setService(service2);
             invoiceRepository.save(invoice2);
+
+             */
         };
     }
 }
