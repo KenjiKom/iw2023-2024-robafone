@@ -14,7 +14,6 @@ public class ClientService {
     private static final Logger LOGGER = Logger.getLogger(ClientService.class.getName());
     private final ClientRepository clientRepository;
 
-
     public ClientService(ClientRepository clientRepository) { this.clientRepository = clientRepository; }
 
     public List<Client> findAll() { return clientRepository.findAll(); }
