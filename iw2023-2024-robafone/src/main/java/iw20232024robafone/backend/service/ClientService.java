@@ -20,6 +20,18 @@ public class ClientService {
 
     public Optional<Client> findClient(Client client) { return clientRepository.findById(client.getId()); }
 
+    public Client findClientByUsername(String username) {
+        List<Client> fullList = clientRepository.findAll();
+        Client client = null;
+        Boolean found = false;
+        for (int i =0; i< fullList.size(); i++){
+            if(fullList.get(i).getUsername().equals(username)){
+                client = fullList.get(i);
+            }
+        }
+        return  client;
+    }
+
     public long count() {
         return clientRepository.count();
     }

@@ -13,23 +13,52 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.TabSheet;
 import com.vaadin.flow.component.tabs.TabSheetVariant;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import iw20232024robafone.backend.entity.Client;
+import iw20232024robafone.backend.entity.Complaint;
+import iw20232024robafone.backend.entity.Invoice;
+import iw20232024robafone.backend.service.ClientService;
+import iw20232024robafone.backend.service.ComplaintService;
+import iw20232024robafone.backend.service.InvoiceService;
 import iw20232024robafone.security.SecurityService;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RolesAllowed("CLIENT")
 @Route("client")
 public class FrontOfficeMainView extends VerticalLayout {
 
     private final SecurityService securityService;
-    public FrontOfficeMainView(SecurityService securityService){
+    public FrontOfficeMainView(SecurityService securityService, InvoiceService invoiceService, ComplaintService complaintService, ClientService clientService){
         this.securityService = securityService;
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        Long numberOfComplaints = complaintService.count();
+
+        Notification.show(numberOfComplaints.toString());
+
+        //Find the Client currently using the view
+        Client currentClient = new Client();
+        List<Client> clientList = clientService.findAll();
+        for (int i = 0; i < clientList.size(); i++){
+            if(clientList.get(i).getUsername().equals(currentPrincipalName)){
+                currentClient = clientList.get(i);
+            }
+        }
         //Set the layout to be centered in the page.
         setSizeFull();
         setAlignItems(Alignment.STRETCH);
@@ -82,14 +111,56 @@ public class FrontOfficeMainView extends VerticalLayout {
                 new Div(consult_title, tabTwoLayout));
         //End of components of 2nd tab---------------------------------------
 
+        Text complaintTitle = new Text("Complaints");
+
+        //Show all existing Complaints for this client
+
+        List<Complaint> clientComplaints = complaintService.findComplaintByUser(currentPrincipalName);
+        Grid<Complaint> gridComplaint = new Grid<>(Complaint.class, true);
+
+
+        //Make the complaint Form
+        TextField complaintSubject = new TextField();
+        complaintSubject.setLabel("Please State a Subject");
+
+        TextField complaintDescription = new TextField();
+        complaintDescription.setLabel("Please Explain Your Issue");
+
+        Client finalCurrentClient = currentClient;
+        Button sendComplaint = new Button("Send Complaint", buttonClickEvent -> {
+            sendComplaint(complaintSubject.getValue(), complaintDescription.getValue(), complaintService, clientService, finalCurrentClient);
+            gridComplaint.setItems(complaintService.findComplaintByUser(finalCurrentClient.getUsername()));
+        });
+
+        sendComplaint.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+
+        VerticalLayout complaintLayout = new VerticalLayout(complaintSubject, complaintDescription, sendComplaint);
+        complaintLayout.setHeightFull();
+        complaintLayout.setAlignItems(Alignment.CENTER);
+        complaintLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+
+
+        tabSheet.add("Complaints", new Div(complaintTitle,gridComplaint, complaintLayout));
         //Components for 3rd tab---------------------------------------------
 
         VerticalLayout gridLayout = new VerticalLayout();
 
         //Temporary grid until we have data
-        Grid grid = new Grid();
-        gridLayout.add(grid);
-        grid.setSizeFull();
+        Grid<Invoice> grid = new Grid<>(Invoice.class, false);
+        List<Invoice> invoices = invoiceService.findAll();
+        grid.addColumn(Invoice::getId).setHeader("ID");
+        grid.addColumn(Invoice::getClient).setHeader("Owner");
+        grid.addColumn(Invoice::getEmployee).setHeader("Employee In Charge");
+        grid.addColumn(Invoice::getCost).setHeader("Cost");
+        grid.addColumn(Invoice::getInvoiceDate).setHeader("Date of Creation");
+        grid.addSelectionListener(selection -> {
+            Optional<Invoice> optionalInvoice = selection.getFirstSelectedItem();
+            if(optionalInvoice.isPresent()){
+                Notification.show("Descargar");
+            }
+        });
+        grid.setItems(invoices);
 
         tabSheet.add("Download Bills",
                 new Div(new Text("Download your past bills"), grid));
@@ -146,5 +217,15 @@ public class FrontOfficeMainView extends VerticalLayout {
         layout.add(new H1(currentPrincipalName.toUpperCase() +", Welcome to Robafone"));
 
         return layout;
+    }
+
+    private void sendComplaint(String subject, String description, ComplaintService complaintService, ClientService clientService, Client currentClient){
+        Complaint newComplaint = new Complaint();
+        newComplaint.setDateComplaint(LocalDateTime.now());
+        newComplaint.setReason(subject);
+        newComplaint.setMessage(description);
+        newComplaint.setClient(clientService.findClientByUsername(currentClient.getUsername()));
+        complaintService.save(newComplaint);
+        Notification.show("Complaint Sent");
     }
 }

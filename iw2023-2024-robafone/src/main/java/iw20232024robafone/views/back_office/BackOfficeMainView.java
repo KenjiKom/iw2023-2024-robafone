@@ -34,12 +34,13 @@ public class BackOfficeMainView extends VerticalLayout {
         setSizeFull();
         setAlignItems(Alignment.STRETCH);
 
+
         TabSheet tabSheet = new TabSheet();
 
         //Components for 1st tab----------------------------------------------
         Text hire_title = new Text("Sales And Marketing Internal Tools");
 
-        Button fiberButton = new Button("Manage Characteristics", event -> UI.getCurrent().navigate("chararteristics"));
+        Button fiberButton = new Button("Manage Services", event -> UI.getCurrent().navigate("services"));
         fiberButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         Button phoneButton = new Button("Manage Current Rates", event -> UI.getCurrent().navigate("rates"));
@@ -59,7 +60,7 @@ public class BackOfficeMainView extends VerticalLayout {
         //Components for 2nd tab----------------------------------------------
         Text consult_title = new Text("Customer Services Internal Tools");
 
-        Button monthlyButton = new Button("Manage Contracts", event -> UI.getCurrent().navigate("contracts"));
+        Button monthlyButton = new Button("Manage Services", event -> UI.getCurrent().navigate("contracts"));
         monthlyButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         Button callButton = new Button("Consult Open User Tickets", event -> UI.getCurrent().navigate("tickets"));
