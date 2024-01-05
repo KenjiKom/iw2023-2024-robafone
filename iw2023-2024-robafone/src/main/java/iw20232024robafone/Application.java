@@ -34,7 +34,7 @@ public class Application implements AppShellConfigurator {
 
     @Bean
     public CommandLineRunner loadData(ClientRepository clientRepository, EmployeeRepository employeeRepository, CallRepository callRepository, InvoiceRepository invoiceRepository,
-                                        ServicioRepository servicioRepository, SmsRepository smsRepository) {
+                                        ServicioRepository servicioRepository, SmsRepository smsRepository, ComplaintRepository complaintRepository) {
 
         return (args) -> {
             Client client1 = new Client();
@@ -131,7 +131,7 @@ public class Application implements AppShellConfigurator {
             Invoice invoice1 = new Invoice();
             LocalDateTime date5 = LocalDateTime.now();
             invoice1.setInvoiceDate(date5);
-            invoice1.setCost(5.5);
+            invoice1.setCost("5.5");
             invoice1.setEmployee(employee1);
             invoice1.setClient(client1);
             invoice1.setService(service1);
@@ -140,11 +140,25 @@ public class Application implements AppShellConfigurator {
             Invoice invoice2 = new Invoice();
             LocalDateTime date6 = LocalDateTime.now();
             invoice2.setInvoiceDate(date6);
-            invoice2.setCost(7.92);
+            invoice2.setCost("7.92");
             invoice2.setEmployee(employee2);
             invoice2.setClient(client2);
             invoice2.setService(service2);
             invoiceRepository.save(invoice2);
+
+            Complaint complaint1 = new Complaint();
+            complaint1.setClient(client1);
+            complaint1.setReason("Bad Service");
+            complaint1.setMessage("This Roldan agent was so rude");
+            complaint1.setDateComplaint(LocalDateTime.now());
+            complaintRepository.save(complaint1);
+
+            Complaint complaint2 = new Complaint();
+            complaint2.setClient(client2);
+            complaint2.setReason("Bad Customer Service");
+            complaint2.setMessage("Migue can bench 225");
+            complaint2.setDateComplaint(LocalDateTime.now());
+            complaintRepository.save(complaint2);
         };
     }
 }

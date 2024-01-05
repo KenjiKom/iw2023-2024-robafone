@@ -1,10 +1,12 @@
 package iw20232024robafone.backend.service;
 
+import iw20232024robafone.backend.entity.Complaint;
 import iw20232024robafone.backend.entity.Servicio;
 import iw20232024robafone.backend.repository.ServicioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -35,5 +37,16 @@ public class ServicioService {
             return;
         }
         servicioRepository.save(servicio);
+    }
+
+    public List<Servicio> findServiciotByUser(String username){
+        List<Servicio> complaintsOfUser = new ArrayList();
+        List<Servicio> complaintList = servicioRepository.findAll();
+        for(int i = 0; i< complaintList.size(); i++){
+            if(complaintList.get(i).getClient().getUsername().equals(username)){
+                complaintsOfUser.add(complaintList.get(i));
+            }
+        }
+        return complaintsOfUser;
     }
 }

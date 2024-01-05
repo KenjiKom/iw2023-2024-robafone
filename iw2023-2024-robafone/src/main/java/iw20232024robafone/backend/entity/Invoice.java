@@ -13,7 +13,7 @@ public class Invoice extends AbstractEntity {
     private LocalDateTime invoiceDate;
 
     @NotNull
-    private double cost;
+    private String cost;
 
     @ManyToOne
     private Client client;
@@ -32,11 +32,11 @@ public class Invoice extends AbstractEntity {
         this.invoiceDate = invoiceDate;
     }
 
-    public double getCost() {
+    public String getCost() {
         return cost;
     }
 
-    public void setCost(double cost) {
+    public void setCost(String cost) {
         this.cost = cost;
     }
 

@@ -40,13 +40,10 @@ public class BackOfficeMainView extends VerticalLayout {
         //Components for 1st tab----------------------------------------------
         Text hire_title = new Text("Sales And Marketing Internal Tools");
 
-        Button fiberButton = new Button("Manage Services", event -> UI.getCurrent().navigate("services"));
+        Button fiberButton = new Button("Manage Services and Rates", event -> UI.getCurrent().navigate("services"));
         fiberButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        Button phoneButton = new Button("Manage Current Rates", event -> UI.getCurrent().navigate("rates"));
-        phoneButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
-        VerticalLayout formLayout = new VerticalLayout(fiberButton, phoneButton);
+        VerticalLayout formLayout = new VerticalLayout(fiberButton);
 
         formLayout.setWidthFull();
         formLayout.setAlignItems(Alignment.STRETCH);
@@ -60,13 +57,10 @@ public class BackOfficeMainView extends VerticalLayout {
         //Components for 2nd tab----------------------------------------------
         Text consult_title = new Text("Customer Services Internal Tools");
 
-        Button monthlyButton = new Button("Manage Services", event -> UI.getCurrent().navigate("contracts"));
-        monthlyButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
         Button callButton = new Button("Consult Open User Tickets", event -> UI.getCurrent().navigate("tickets"));
         callButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        VerticalLayout tabTwoLayout = new VerticalLayout(monthlyButton, callButton);
+        VerticalLayout tabTwoLayout = new VerticalLayout( callButton);
 
         tabTwoLayout.setWidthFull();
         tabTwoLayout.setAlignItems(Alignment.STRETCH);
@@ -82,7 +76,7 @@ public class BackOfficeMainView extends VerticalLayout {
         //Temporary grid until we have data
         Text tabThreeTitle = new Text("Billing Internal Tools");
 
-        Button billingButton = new Button("Billing", event -> UI.getCurrent().navigate("contracts"));
+        Button billingButton = new Button("Billing", event -> UI.getCurrent().navigate("invoice"));
         billingButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         VerticalLayout tabThreeLayout = new VerticalLayout(billingButton);
