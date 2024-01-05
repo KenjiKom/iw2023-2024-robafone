@@ -4,12 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
 @Entity
 public class Complaint extends AbstractEntity {
-    @NotEmpty
+    @NotNull
     private LocalDateTime dateComplaint;
 
     @NotEmpty

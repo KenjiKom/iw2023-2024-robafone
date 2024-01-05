@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Invoice extends AbstractEntity {
-    @NotEmpty
+    @NotNull
     private LocalDateTime invoiceDate;
 
     @NotNull

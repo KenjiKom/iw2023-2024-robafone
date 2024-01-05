@@ -3,12 +3,13 @@ package iw20232024robafone.backend.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
 @Entity
 public class Sms extends AbstractEntity {
-    @NotEmpty
+    @NotNull
     private LocalDateTime smsDate;
 
     @NotEmpty
