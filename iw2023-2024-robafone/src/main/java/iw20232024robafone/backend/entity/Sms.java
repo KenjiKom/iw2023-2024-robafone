@@ -4,12 +4,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 public class Sms extends AbstractEntity {
     @NotEmpty
-    private Date smsDate;
+    private LocalDateTime smsDate;
 
     @NotEmpty
     private String message = "";
@@ -20,9 +20,9 @@ public class Sms extends AbstractEntity {
     @ManyToOne
     private Client client;
 
-    public Date getSmsDate() { return smsDate; }
+    public LocalDateTime getSmsDate() { return smsDate; }
 
-    public void setSmsDate(Date smsDate) { this.smsDate = smsDate; }
+    public void setSmsDate(LocalDateTime smsDate) { this.smsDate = smsDate; }
 
     public String getMessage() { return message; }
 

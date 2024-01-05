@@ -5,12 +5,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 public class Invoice extends AbstractEntity {
     @NotEmpty
-    private Date invoiceDate;
+    private LocalDateTime invoiceDate;
 
     @NotNull
     private double cost;
@@ -24,11 +24,11 @@ public class Invoice extends AbstractEntity {
     @ManyToOne
     private Servicio service;
 
-    public Date getInvoiceDate() {
+    public LocalDateTime getInvoiceDate() {
         return invoiceDate;
     }
 
-    public void setInvoiceDate(Date invoiceDate) {
+    public void setInvoiceDate(LocalDateTime invoiceDate) {
         this.invoiceDate = invoiceDate;
     }
 

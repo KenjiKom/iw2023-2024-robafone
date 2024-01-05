@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -76,9 +77,8 @@ public class Application implements AppShellConfigurator {
             employee2.setPassword(SecurityService.passwordEncoder().encode("yonosabia"));
             employeeRepository.save(employee2);
 
-            /*
             Call call1 = new Call();
-            Date date1 = new Date("04/10/2001");
+            LocalDateTime date1 = LocalDateTime.now();
             call1.setCallDate(date1);
             call1.setDuration(1.4);
             call1.setSender("Manolo");
@@ -86,7 +86,7 @@ public class Application implements AppShellConfigurator {
             callRepository.save(call1);
 
             Call call2 = new Call();
-            Date date2 = new Date("23/05/2020");
+            LocalDateTime date2 = LocalDateTime.now();
             call2.setCallDate(date2);
             call2.setDuration(2.2);
             call2.setSender("Messi");
@@ -94,7 +94,7 @@ public class Application implements AppShellConfigurator {
             callRepository.save(call2);
 
             Sms sms1 = new Sms();
-            Date date3 = new Date("03/06/2019");
+            LocalDateTime date3 = LocalDateTime.now();
             sms1.setSmsDate(date3);
             sms1.setMessage("Cómo están muchacho");
             sms1.setSender("Benson");
@@ -102,7 +102,7 @@ public class Application implements AppShellConfigurator {
             smsRepository.save(sms1);
 
             Sms sms2 = new Sms();
-            Date date4 = new Date("20/03/2017");
+            LocalDateTime date4 = LocalDateTime.now();
             sms2.setSmsDate(date4);
             sms2.setMessage("Mi primera chamba");
             sms2.setSender("Eladio");
@@ -129,7 +129,7 @@ public class Application implements AppShellConfigurator {
             servicioRepository.save(service2);
 
             Invoice invoice1 = new Invoice();
-            Date date5 = new Date("06/01/2023");
+            LocalDateTime date5 = LocalDateTime.now();
             invoice1.setInvoiceDate(date5);
             invoice1.setCost(5.5);
             invoice1.setEmployee(employee1);
@@ -138,15 +138,13 @@ public class Application implements AppShellConfigurator {
             invoiceRepository.save(invoice1);
 
             Invoice invoice2 = new Invoice();
-            Date date6 = new Date("12/12/2022");
+            LocalDateTime date6 = LocalDateTime.now();
             invoice2.setInvoiceDate(date6);
             invoice2.setCost(7.92);
             invoice2.setEmployee(employee2);
             invoice2.setClient(client2);
             invoice2.setService(service2);
             invoiceRepository.save(invoice2);
-
-             */
         };
     }
 }

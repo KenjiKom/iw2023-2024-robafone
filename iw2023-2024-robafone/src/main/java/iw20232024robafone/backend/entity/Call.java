@@ -5,12 +5,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 public class Call extends AbstractEntity {
     @NotEmpty
-    private Date callDate;
+    private LocalDateTime callDate;
 
     @NotNull
     private Double duration;
@@ -21,11 +21,11 @@ public class Call extends AbstractEntity {
     @ManyToOne
     private Client client;
 
-    public Date getCallDate() {
+    public LocalDateTime getCallDate() {
         return callDate;
     }
 
-    public void setCallDate(Date callDate) {
+    public void setCallDate(LocalDateTime callDate) {
         this.callDate = callDate;
     }
 

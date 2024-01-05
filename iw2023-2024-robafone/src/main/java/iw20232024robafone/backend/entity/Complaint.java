@@ -5,12 +5,12 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 public class Complaint extends AbstractEntity {
     @NotEmpty
-    private Date dateComplaint;
+    private LocalDateTime dateComplaint;
 
     @NotEmpty
     private String reason = "";
@@ -21,9 +21,9 @@ public class Complaint extends AbstractEntity {
     @ManyToOne
     private Client client;
 
-    public Date getDateComplaint() { return dateComplaint; }
+    public LocalDateTime getDateComplaint() { return dateComplaint; }
 
-    public void setDateComplaint(Date dateComplaint) { this.dateComplaint = dateComplaint; }
+    public void setDateComplaint(LocalDateTime dateComplaint) { this.dateComplaint = dateComplaint; }
 
     public String getReason() { return reason; }
 
