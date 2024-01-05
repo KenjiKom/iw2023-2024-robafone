@@ -3,12 +3,13 @@ package iw20232024robafone.backend.service;
 import iw20232024robafone.backend.entity.Servicio;
 import iw20232024robafone.backend.repository.ServicioRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+@Transactional
 @Service
 public class ServicioService {
     private static final Logger LOGGER = Logger.getLogger(ServicioService.class.getName());

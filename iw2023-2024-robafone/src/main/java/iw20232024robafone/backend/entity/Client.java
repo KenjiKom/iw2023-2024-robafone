@@ -2,10 +2,11 @@ package iw20232024robafone.backend.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
-
+@Transactional
 @Entity
 public class Client extends Usuario {
 

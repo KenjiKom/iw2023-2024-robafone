@@ -113,9 +113,9 @@ public class Application implements AppShellConfigurator {
             List<Client> listClients1 = new ArrayList<Client>();
             listClients1.add(client1);
             service1.setType("Fibra");
-            service1.setPrice(19.99);
+            service1.setPrice("19.99");
             service1.setDescription("Especificaciones de tu router, además de detalles de tu oferta contratada como la velocidad de subida y bajada");
-            service1.setClients(listClients1);
+            service1.setClient(client2);
             servicioRepository.save(service1);
 
             Servicio service2 = new Servicio();
@@ -123,9 +123,9 @@ public class Application implements AppShellConfigurator {
             listClients2.add(client1);
             listClients2.add(client2);
             service2.setType("Fijo");
-            service2.setPrice(15.99);
+            service2.setPrice("15.99");
             service2.setDescription("Conocer qué tiene y cómo es la tarifa que esté actualmente activada, además de todos los extras y la actualización del consumo realizado.");
-            service2.setClients(listClients2);
+            service2.setClient(client1);
             servicioRepository.save(service2);
 
             Invoice invoice1 = new Invoice();
