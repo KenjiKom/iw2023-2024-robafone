@@ -11,10 +11,12 @@ import iw20232024robafone.views.back_office.BackOfficeMainView;
 import iw20232024robafone.views.front_office.FrontOfficeMainView;
 import jakarta.annotation.security.PermitAll;
 
+import java.io.IOException;
+
 @PermitAll
 @Route("")
 public class MainView extends VerticalLayout {
-    public MainView(SecurityService securityService, EmployeeService employeeService, ClientService clientService, InvoiceService invoiceService, ComplaintService complaintService) {
+    public MainView(SecurityService securityService, EmployeeService employeeService, ClientService clientService, InvoiceService invoiceService, ComplaintService complaintService) throws IOException {
 
         if (securityService.getAuthenticatedUser().getAuthorities().toString().equals("[ROLE_EMPLOYEE]")){
             add(new BackOfficeMainView(securityService));

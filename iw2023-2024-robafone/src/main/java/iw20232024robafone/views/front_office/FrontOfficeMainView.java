@@ -1,6 +1,6 @@
 package iw20232024robafone.views.front_office;
 
-
+import com.ironsoftware.ironpdf.PdfDocument;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
@@ -11,8 +11,11 @@ import com.vaadin.flow.component.combobox.MultiSelectComboBox;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -21,6 +24,7 @@ import com.vaadin.flow.component.tabs.TabSheet;
 import com.vaadin.flow.component.tabs.TabSheetVariant;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.StreamResource;
 import iw20232024robafone.backend.entity.Client;
 import iw20232024robafone.backend.entity.Complaint;
 import iw20232024robafone.backend.entity.Invoice;
@@ -29,13 +33,23 @@ import iw20232024robafone.backend.service.ComplaintService;
 import iw20232024robafone.backend.service.InvoiceService;
 import iw20232024robafone.security.SecurityService;
 import jakarta.annotation.security.RolesAllowed;
+import org.openqa.selenium.Pdf;
+import org.pdfbox.exceptions.COSVisitorException;
+import org.pdfbox.pdmodel.PDDocument;
+import org.pdfbox.pdmodel.PDPage;
+import org.pdfbox.util.PDFHighlighter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.w3c.dom.Document;
 
+import javax.xml.transform.stream.StreamSource;
+import java.io.*;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 @RolesAllowed("CLIENT")
 @Route("client")
@@ -156,7 +170,9 @@ public class FrontOfficeMainView extends VerticalLayout {
         grid.addSelectionListener(selection -> {
             Optional<Invoice> optionalInvoice = selection.getFirstSelectedItem();
             if(optionalInvoice.isPresent()){
-                Notification.show("Descargar");
+                String html = new String(optionalInvoice.get().getClient().toString() + " has a payment of: " + optionalInvoice.get().getCost().toString() +"$"+" with date of "+optionalInvoice.get().getInvoiceDate().toString());
+                download(html);
+
             }
         });
         grid.setItems(invoiceService.findServiciotByUser(currentClient.getUsername()));
@@ -237,4 +253,23 @@ public class FrontOfficeMainView extends VerticalLayout {
         complaintService.save(newComplaint);
         Notification.show("Complaint Sent");
     }
+
+    public void download(String html) {
+
+        StreamResource res = new StreamResource("invoice", () -> {
+                byte[] b = null;
+                b=html.getBytes();
+                return new ByteArrayInputStream(b);
+        });
+
+        res.setContentType("application/txt");
+        res.setCacheTime(0);
+
+        Anchor a = new Anchor(res, "");
+        a.getElement().setAttribute("download", true);
+        a.add(new Button(new Icon(VaadinIcon.DOWNLOAD_ALT)));
+        add(a);
+    }
+
+
 }
