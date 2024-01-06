@@ -7,6 +7,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.combobox.MultiSelectComboBox;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.grid.Grid;
@@ -49,8 +50,6 @@ public class FrontOfficeMainView extends VerticalLayout {
 
         Long numberOfComplaints = complaintService.count();
 
-        Notification.show(numberOfComplaints.toString());
-
         //Find the Client currently using the view
         Client currentClient = new Client();
         List<Client> clientList = clientService.findAll();
@@ -70,10 +69,10 @@ public class FrontOfficeMainView extends VerticalLayout {
         //Components for 1st tab----------------------------------------------
         Text hire_title = new Text("Services for hire in Robafone");
 
-        Button fiberButton = new Button("Hire Optic Fiber Service", event -> UI.getCurrent().navigate("fiber"));
+        Button fiberButton = new Button("Hire Optic Fiber Service", event -> UI.getCurrent().navigate("hire_fiber"));
         fiberButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        Button phoneButton = new Button("Hire Phone Services", event -> UI.getCurrent().navigate("phone"));
+        Button phoneButton = new Button("Hire Phone Services", event -> UI.getCurrent().navigate("hire_phone"));
         phoneButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         VerticalLayout formLayout = new VerticalLayout(fiberButton, phoneButton);
@@ -90,7 +89,7 @@ public class FrontOfficeMainView extends VerticalLayout {
         //Components for 2nd tab----------------------------------------------
         Text consult_title = new Text("Consult your Services in Robafone");
 
-        Button monthlyButton = new Button("Monthly Volume", event -> UI.getCurrent().navigate("montly"));
+        Button monthlyButton = new Button("Active Services", event -> UI.getCurrent().navigate("client_services"));
         monthlyButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         Button callButton = new Button("Call Registry", event -> UI.getCurrent().navigate("calls"));
@@ -99,10 +98,10 @@ public class FrontOfficeMainView extends VerticalLayout {
         Button smsButton = new Button("SMS Registry", event -> UI.getCurrent().navigate("sms"));
         smsButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        Button fivegButton = new Button("5G Daily Volume", event -> UI.getCurrent().navigate("5g"));
-        fivegButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        //Button fivegButton = new Button("5G Daily Volume", event -> UI.getCurrent().navigate("5g"));
+        //fivegButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        VerticalLayout tabTwoLayout = new VerticalLayout(monthlyButton, callButton, smsButton, fivegButton);
+        VerticalLayout tabTwoLayout = new VerticalLayout(monthlyButton, callButton, smsButton);
 
         tabTwoLayout.setWidthFull();
         tabTwoLayout.setAlignItems(Alignment.STRETCH);
@@ -160,11 +159,21 @@ public class FrontOfficeMainView extends VerticalLayout {
                 Notification.show("Descargar");
             }
         });
-        grid.setItems(invoices);
+        grid.setItems(invoiceService.findServiciotByUser(currentClient.getUsername()));
 
         tabSheet.add("Download Bills",
                 new Div(new Text("Download your past bills"), grid));
         //End of components of 3rd tab---------------------------------------
+
+
+        MultiSelectComboBox<String> multiSelectComboBox = new MultiSelectComboBox<>();
+        multiSelectComboBox.setItems("Activate Roaming","Activate Share Data","Activate Block Special Numbers");
+        Button sendConfig = new Button("Send Configuration", buttonClickEvent -> {
+
+        });
+        sendConfig.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        tabSheet.add("Activate Extra Options",
+                new VerticalLayout(new Text("Click to Activate These Options in Your Account"), multiSelectComboBox, sendConfig));
 
         //Components for 4th tab---------------------------------------------
         tabSheet.add("Share",

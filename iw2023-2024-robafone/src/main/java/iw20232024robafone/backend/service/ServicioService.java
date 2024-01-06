@@ -1,5 +1,6 @@
 package iw20232024robafone.backend.service;
 
+import iw20232024robafone.backend.entity.Client;
 import iw20232024robafone.backend.entity.Complaint;
 import iw20232024robafone.backend.entity.Servicio;
 import iw20232024robafone.backend.repository.ServicioRepository;

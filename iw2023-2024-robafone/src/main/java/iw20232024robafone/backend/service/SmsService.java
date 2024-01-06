@@ -1,11 +1,13 @@
 package iw20232024robafone.backend.service;
 
+import iw20232024robafone.backend.entity.Invoice;
 import iw20232024robafone.backend.entity.Servicio;
 import iw20232024robafone.backend.entity.Sms;
 import iw20232024robafone.backend.repository.ServicioRepository;
 import iw20232024robafone.backend.repository.SmsRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -36,5 +38,15 @@ public class SmsService {
             return;
         }
         smsRepository.save(sms);
+    }
+    public List<Sms> findSmsByUser(String username){
+        List<Sms> complaintsOfUser = new ArrayList();
+        List<Sms> complaintList = smsRepository.findAll();
+        for(int i = 0; i< complaintList.size(); i++){
+            if(complaintList.get(i).getClient().getUsername().equals(username)){
+                complaintsOfUser.add(complaintList.get(i));
+            }
+        }
+        return complaintsOfUser;
     }
 }

@@ -1,9 +1,11 @@
 package iw20232024robafone.backend.service;
 
 import iw20232024robafone.backend.entity.Call;
+import iw20232024robafone.backend.entity.Invoice;
 import iw20232024robafone.backend.repository.CallRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -34,5 +36,16 @@ public class CallService {
             return;
         }
         callRepository.save(call);
+    }
+
+    public List<Call> findCallByUser(String username){
+        List<Call> complaintsOfUser = new ArrayList();
+        List<Call> complaintList = callRepository.findAll();
+        for(int i = 0; i< complaintList.size(); i++){
+            if(complaintList.get(i).getClient().getUsername().equals(username)){
+                complaintsOfUser.add(complaintList.get(i));
+            }
+        }
+        return complaintsOfUser;
     }
 }
