@@ -1,6 +1,7 @@
 package iw20232024robafone.views.front_office;
 
-import com.ironsoftware.ironpdf.PdfDocument;
+//import com.ironsoftware.ironpdf.PdfDocument;
+import com.itextpdf.text.DocumentException;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
@@ -33,17 +34,23 @@ import iw20232024robafone.backend.service.ComplaintService;
 import iw20232024robafone.backend.service.InvoiceService;
 import iw20232024robafone.security.SecurityService;
 import jakarta.annotation.security.RolesAllowed;
-import org.openqa.selenium.Pdf;
+/*import org.openqa.selenium.Pdf;
 import org.pdfbox.exceptions.COSVisitorException;
 import org.pdfbox.pdmodel.PDDocument;
 import org.pdfbox.pdmodel.PDPage;
-import org.pdfbox.util.PDFHighlighter;
+import org.pdfbox.util.PDFHighlighter;*/
+import com.itextpdf.text.Document;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.w3c.dom.Document;
+//import org.w3c.dom.Document;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.html.simpleparser.HTMLWorker;
+import com.itextpdf.text.pdf.PdfWriter;
+
 
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -171,7 +178,13 @@ public class FrontOfficeMainView extends VerticalLayout {
             Optional<Invoice> optionalInvoice = selection.getFirstSelectedItem();
             if(optionalInvoice.isPresent()){
                 String html = new String(optionalInvoice.get().getClient().toString() + " has a payment of: " + optionalInvoice.get().getCost().toString() +"$"+" with date of "+optionalInvoice.get().getInvoiceDate().toString());
-                download(html);
+                try {
+                    download(html);
+                } catch (DocumentException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
             }
         });
@@ -254,18 +267,33 @@ public class FrontOfficeMainView extends VerticalLayout {
         Notification.show("Complaint Sent");
     }
 
-    public void download(String html) {
+    public void download(String html) throws DocumentException, IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Document document = new Document(PageSize.A4);
+        PdfWriter.getInstance(document, baos);
+        document.open();
 
-        StreamResource res = new StreamResource("invoice", () -> {
+        HTMLWorker htmlWorker = new HTMLWorker(document);
+        htmlWorker.parse(new StringReader(html));
+
+        document.close();
+        byte[] pdfBytes = baos.toByteArray();
+
+
+        /*StreamResource res = new StreamResource("invoice", () -> {
                 byte[] b = null;
-                b=html.getBytes();
+                b=html.getBytes(StandardCharsets.UTF_8);
                 return new ByteArrayInputStream(b);
         });
 
-        res.setContentType("application/txt");
-        res.setCacheTime(0);
+        res.setContentType("application/pdf");
+        res.setCacheTime(0);*/
 
-        Anchor a = new Anchor(res, "");
+        StreamResource resource = new StreamResource("invoice.pdf", () -> new ByteArrayInputStream(pdfBytes));
+        resource.setContentType("application/pdf");
+        resource.setCacheTime(0);
+
+        Anchor a = new Anchor(resource, "");
         a.getElement().setAttribute("download", true);
         a.add(new Button(new Icon(VaadinIcon.DOWNLOAD_ALT)));
         add(a);
