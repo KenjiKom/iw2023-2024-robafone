@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,8 +32,8 @@ public class Application implements AppShellConfigurator {
     }
 
     @Bean
-    public CommandLineRunner loadData(ClientRepository clientRepository, EmployeeRepository employeeRepository, CallRepository callRepository, InvoiceRepository invoiceRepository,
-                                        ServicioRepository servicioRepository, SmsRepository smsRepository, ComplaintRepository complaintRepository) {
+    public CommandLineRunner loadData(ClientRepository clientRepository, EmployeeRepository employeeRepository, LlamadaRepository llamadaRepository, InvoiceRepository invoiceRepository,
+                                      ServicioRepository servicioRepository, SmsRepository smsRepository, ComplaintRepository complaintRepository) {
 
         return (args) -> {
             Client client1 = new Client();
@@ -77,21 +76,21 @@ public class Application implements AppShellConfigurator {
             employee2.setPassword(SecurityService.passwordEncoder().encode("yonosabia"));
             employeeRepository.save(employee2);
 
-            Call call1 = new Call();
+            Llamada llamada1 = new Llamada();
             LocalDateTime date1 = LocalDateTime.now();
-            call1.setCallDate(date1);
-            call1.setDuration(1.4);
-            call1.setSender("Manolo");
-            call1.setClient(client1);
-            callRepository.save(call1);
+            llamada1.setCallDate(date1);
+            llamada1.setDuration(1.4);
+            llamada1.setSender("Manolo");
+            llamada1.setClient(client1);
+            llamadaRepository.save(llamada1);
 
-            Call call2 = new Call();
+            Llamada llamada2 = new Llamada();
             LocalDateTime date2 = LocalDateTime.now();
-            call2.setCallDate(date2);
-            call2.setDuration(2.2);
-            call2.setSender("Messi");
-            call2.setClient(client2);
-            callRepository.save(call2);
+            llamada2.setCallDate(date2);
+            llamada2.setDuration(2.2);
+            llamada2.setSender("Messi");
+            llamada2.setClient(client2);
+            llamadaRepository.save(llamada2);
 
             Sms sms1 = new Sms();
             LocalDateTime date3 = LocalDateTime.now();
@@ -115,7 +114,9 @@ public class Application implements AppShellConfigurator {
             service1.setType("Fibra");
             service1.setPrice("19.99");
             service1.setDescription("Especificaciones de tu router, además de detalles de tu oferta contratada como la velocidad de subida y bajada");
-            service1.setClient(client2);
+            List<Client> cliente = new ArrayList<Client>();
+            cliente.add(client2);
+            service1.setClient(cliente);
             servicioRepository.save(service1);
 
             Servicio service2 = new Servicio();
@@ -125,7 +126,9 @@ public class Application implements AppShellConfigurator {
             service2.setType("Fijo");
             service2.setPrice("15.99");
             service2.setDescription("Conocer qué tiene y cómo es la tarifa que esté actualmente activada, además de todos los extras y la actualización del consumo realizado.");
-            service2.setClient(client1);
+            List<Client> clienteA = new ArrayList<Client>();
+            clienteA.add(client1);
+            service2.setClient(clienteA);
             servicioRepository.save(service2);
 
             Invoice invoice1 = new Invoice();

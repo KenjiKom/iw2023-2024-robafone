@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-public class Call extends AbstractEntity {
+public class Llamada extends AbstractEntity {
     @NotNull
     private LocalDateTime callDate;
 

@@ -25,6 +25,7 @@ import jakarta.annotation.security.RolesAllowed;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RolesAllowed("CLIENT")
@@ -73,7 +74,10 @@ public class FrontHirePhoneMainView extends VerticalLayout {
                 newServicio.setDescription(description.getText());
                 newServicio.setPrice(gigas.getValue());
                 newServicio.setType("Fijo");
-                newServicio.setClient(finalCurrentClient);
+                //TODO
+                List<Client> cliente = new ArrayList<Client>();
+                cliente.add(finalCurrentClient);
+                newServicio.setClient(cliente);
                 servicioService.save(newServicio);
                 Notification.show("Service Hired!");
                 UI.getCurrent().navigate("client");

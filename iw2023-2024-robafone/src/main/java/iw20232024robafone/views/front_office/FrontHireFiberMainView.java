@@ -27,6 +27,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -77,7 +78,10 @@ public class FrontHireFiberMainView extends VerticalLayout {
                 newServicio.setDescription(description.getText());
                 newServicio.setPrice(gigas.getValue());
                 newServicio.setType("Fibra");
-                newServicio.setClient(finalCurrentClient);
+                //TODO
+                List<Client> cliente = new ArrayList<Client>();
+                cliente.add(finalCurrentClient);
+                newServicio.setClient(cliente);
                 servicioService.save(newServicio);
                 Notification.show("Service Hired!");
                 UI.getCurrent().navigate("client");

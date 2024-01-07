@@ -11,17 +11,13 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.menubar.MenuBar;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import iw20232024robafone.backend.entity.Call;
+import iw20232024robafone.backend.entity.Llamada;
 import iw20232024robafone.backend.entity.Client;
-import iw20232024robafone.backend.entity.Complaint;
-import iw20232024robafone.backend.entity.Employee;
-import iw20232024robafone.backend.service.CallService;
+import iw20232024robafone.backend.service.LlamadaService;
 import iw20232024robafone.backend.service.ClientService;
 import iw20232024robafone.backend.service.ComplaintService;
 import iw20232024robafone.backend.service.EmployeeService;
@@ -31,13 +27,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
-import java.util.Optional;
 
 @RolesAllowed("CLIENT")
 @Route("calls")
 public class FrontCallMainView extends VerticalLayout {
     private final SecurityService securityService;
-    public FrontCallMainView(SecurityService securityService, EmployeeService employeeService, ComplaintService complaintService, ClientService clientService, CallService callService) {
+    public FrontCallMainView(SecurityService securityService, EmployeeService employeeService, ComplaintService complaintService, ClientService clientService, LlamadaService llamadaService) {
         this.securityService = securityService;
 
         //Set the layout to be centered in the page.
@@ -56,13 +51,13 @@ public class FrontCallMainView extends VerticalLayout {
             }
         }
 
-        Grid<Call> gridCalls = new Grid<>(Call.class, false);
+        Grid<Llamada> gridCalls = new Grid<>(Llamada.class, false);
 
-        gridCalls.addColumn(Call::getCallDate).setHeader("Date of Call");
-        gridCalls.addColumn(Call::getSender).setHeader("Called To");
-        gridCalls.addColumn(Call::getDuration).setHeader("Duration of The Call");
+        gridCalls.addColumn(Llamada::getCallDate).setHeader("Date of Call");
+        gridCalls.addColumn(Llamada::getSender).setHeader("Called To");
+        gridCalls.addColumn(Llamada::getDuration).setHeader("Duration of The Call");
 
-        gridCalls.setItems(callService.findCallByUser(currentClient.getUsername()));
+        gridCalls.setItems(llamadaService.findCallByUser(currentClient.getUsername()));
 
         Button goBack = new Button("Go Back to Main Menu", buttonClickEvent -> UI.getCurrent().navigate("client"));
         goBack.setWidth("120px");

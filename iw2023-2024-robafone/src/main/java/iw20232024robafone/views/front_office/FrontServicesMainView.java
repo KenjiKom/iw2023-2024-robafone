@@ -17,9 +17,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import iw20232024robafone.backend.entity.Call;
 import iw20232024robafone.backend.entity.Client;
-import iw20232024robafone.backend.entity.Complaint;
 import iw20232024robafone.backend.entity.Servicio;
 import iw20232024robafone.backend.service.*;
 import iw20232024robafone.security.SecurityService;
@@ -34,7 +32,7 @@ import java.util.Optional;
 @Route("client_services")
 public class FrontServicesMainView extends VerticalLayout {
     private final SecurityService securityService;
-    public FrontServicesMainView(SecurityService securityService, EmployeeService employeeService, ComplaintService complaintService, ClientService clientService, CallService callService, ServicioService servicioService) {
+    public FrontServicesMainView(SecurityService securityService, EmployeeService employeeService, ComplaintService complaintService, ClientService clientService, LlamadaService llamadaService, ServicioService servicioService) {
         this.securityService = securityService;
 
         //Set the layout to be centered in the page.

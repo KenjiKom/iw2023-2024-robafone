@@ -44,7 +44,7 @@ public class ServicioService {
         List<Servicio> complaintsOfUser = new ArrayList();
         List<Servicio> complaintList = servicioRepository.findAll();
         for(int i = 0; i< complaintList.size(); i++){
-            if(complaintList.get(i).getClient().getUsername().equals(username)){
+            if(complaintList.get(i).getClient().get(0).getUsername().equals(username)){
                 complaintsOfUser.add(complaintList.get(i));
             }
         }
