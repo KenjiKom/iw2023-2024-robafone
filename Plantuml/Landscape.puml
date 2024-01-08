@@ -1,0 +1,19 @@
+@startuml Landscape Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include FONTAWESOME/users.puml
+
+Person(clients, "Clientes", "Contratan y utilizan los servicios de robafone", $sprite="users")
+System_Boundary(c1, "Sistema") {
+    Person(backoffice, "Encargado del Back-office", "Gestión y soporte de los datos manejados por la aplicación")
+    Container(mainframe, "Marco principal", "Sistema software", "Almacena la información y datos recibidos por el sistema de contratacion de servicios")
+    Container(hireservices, "Sistema de contratación de servicios", "Sistema software", "Permite a los clientes contratar y gestionar los servicios disponibles, además de consultar sus facturas. Los empleados pueden gestionar y enviar facturas")
+    Person(employees, "Empleados", "Envían y gestionan las correspondientes facturas de los servicios", $sprite="users")
+}
+
+Rel(backoffice, mainframe, "Usa")
+Rel(hireservices, mainframe, "Envía información sobre los servicios y facturas de los correspondientes clientes")
+Rel(clients, hireservices, "Contratación y consulta de servicios, incluyendo facturas")
+Rel(employees, hireservices, "Genera facturas")

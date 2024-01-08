@@ -1,0 +1,26 @@
+@startuml Containers Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include DEVICONS/msql_server.puml
+!include FONTAWESOME/users.puml
+
+Person(employees, "Empleados", "Envían y gestionan las correspondientes facturas de los servicios", $sprite="users")
+Person(clients, "Clientes", "Contratan y utilizan los servicios de robafone", $sprite="users")
+Container(mainframe, "Marco principal", "Sistema software", "Almacena la información y datos recibidos por el sistema de contratacion de servicios")
+System_Boundary(c1, "Sistema de contratación de servicios") {
+    Container(aplicacionweb, "Aplicación web", "Container: Java y Spring MVC", "Muestra formularios, contenido estático, vistas de la página de contratación de servicios")
+    Container(aplicacionsp, "Aplicación de página única", "Container: Java y Spring MVC", "Provee a los clientes del acceso a las funcionalidades del sistema de contratación de servicios")
+    Container(aplicacionapi, "Aplicación API", "Container: Java y Spring MVC", "Provee funcionalidades al sistema de contratacion de servicios mediante HTTP")
+    ContainerDb(db, "Base de datos", "Container: MySQL", "Guarda la información tanto de clientes como empleados, las quejas, facturas, servicios, etc.")
+}
+
+Rel(clients, aplicacionweb, "Usa", "HTTP")
+Rel(clients, aplicacionsp, "Usa", "HTTP")
+Rel(employees, aplicacionweb, "Usa", "HTTP")
+Rel(employees, aplicacionsp, "Usa", "HTTP")
+Rel_R(aplicacionweb, aplicacionsp, "Envía datos")
+Rel_R(aplicacionsp, aplicacionapi, "Usa", "async/HTTP")
+Rel(aplicacionapi, db, "Lee y escribe en", "JDBC")
+Rel(aplicacionapi, mainframe, "La API llama a", "HTTP")

@@ -1,0 +1,24 @@
+@startuml Components Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+!include DEVICONS/msql_server.puml
+!include FONTAWESOME/users.puml
+
+Container(aplicacionsp, "Aplicación de página única", "Container: Java y Spring MVC", "Provee a los clientes del acceso a las funcionalidades del sistema de contratación de servicios")
+ContainerDb(db, "Base de datos", "Container: MySQL", "Guarda la información tanto de clientes como empleados, las quejas, facturas, servicios, etc.")
+Container(mainframe, "Marco principal", "Sistema software", "Almacena la información y datos recibidos por el sistema de contratacion de servicios")
+System_Boundary(c1, "Aplicación API") {
+    Component(gest, "Gestiones", "Llamadas, Sms y consumo de datos")
+    Component(pdffac, "Generacion de facturas", "Para la factura relacionada con cierto servicio, en pdf")
+    Component(security, "Control de la seguridad", "Spring", "Control de acceso de usuarios y contraseñas")
+}
+
+Rel(aplicacionsp, gest, "Usa", "HTTP")
+Rel(gest, mainframe, "Usa", "HTTP")
+Rel(security, db, "Lee y escribe en", "JDBC")
+Rel(gest, security, "Usa")
+Rel(gest, pdffac, "Usa")
+
