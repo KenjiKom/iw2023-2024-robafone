@@ -109,14 +109,13 @@ public class Application implements AppShellConfigurator {
             smsRepository.save(sms2);
 
             Servicio service1 = new Servicio();
-            List<Client> listClients1 = new ArrayList<Client>();
-            listClients1.add(client1);
+            Client listClients1 = new Client();
             service1.setType("Fibra");
             service1.setPrice("19.99");
             service1.setDescription("Especificaciones de tu router, además de detalles de tu oferta contratada como la velocidad de subida y bajada");
             List<Client> cliente = new ArrayList<Client>();
             cliente.add(client2);
-            service1.setClient(cliente);
+            service1.setClient(client1);
             servicioRepository.save(service1);
 
             Servicio service2 = new Servicio();
@@ -128,7 +127,7 @@ public class Application implements AppShellConfigurator {
             service2.setDescription("Conocer qué tiene y cómo es la tarifa que esté actualmente activada, además de todos los extras y la actualización del consumo realizado.");
             List<Client> clienteA = new ArrayList<Client>();
             clienteA.add(client1);
-            service2.setClient(clienteA);
+            service2.setClient(client1);
             servicioRepository.save(service2);
 
             Invoice invoice1 = new Invoice();

@@ -77,7 +77,7 @@ public class FrontHirePhoneMainView extends VerticalLayout {
                 //TODO
                 List<Client> cliente = new ArrayList<Client>();
                 cliente.add(finalCurrentClient);
-                newServicio.setClient(cliente);
+                newServicio.setClient(finalCurrentClient);
                 servicioService.save(newServicio);
                 Notification.show("Service Hired!");
                 UI.getCurrent().navigate("client");

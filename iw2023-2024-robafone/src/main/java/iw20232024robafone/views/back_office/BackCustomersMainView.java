@@ -1,7 +1,6 @@
 package iw20232024robafone.views.back_office;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
@@ -15,17 +14,16 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.tabs.TabSheet;
-import com.vaadin.flow.component.tabs.TabSheetVariant;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
 import iw20232024robafone.backend.entity.Client;
-import iw20232024robafone.backend.entity.Complaint;
 import iw20232024robafone.backend.entity.Employee;
 import iw20232024robafone.backend.entity.Servicio;
+import iw20232024robafone.backend.service.ClientService;
 import iw20232024robafone.backend.service.EmployeeService;
 import iw20232024robafone.backend.service.ServicioService;
 import iw20232024robafone.security.SecurityService;
@@ -33,14 +31,13 @@ import jakarta.annotation.security.RolesAllowed;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RolesAllowed("EMPLOYEE")
-@Route("services")
-public class BackServicesMainView extends VerticalLayout {
+@Route("customers")
+public class BackCustomersMainView extends VerticalLayout {
     private final SecurityService securityService;
-    public BackServicesMainView(SecurityService securityService, EmployeeService employeeService, ServicioService servicioService) {
+    public BackCustomersMainView(SecurityService securityService, EmployeeService employeeService, ServicioService servicioService, ClientService clientService) {
         this.securityService = securityService;
 
         //Set the layout to be centered in the page.
@@ -59,24 +56,29 @@ public class BackServicesMainView extends VerticalLayout {
             }
         }
 
-        Grid<Servicio> gridClient = new Grid<>(Servicio.class, false);
+        Grid<Client> gridClient = new Grid<>(Client.class, false);
 
-        Grid.Column<Servicio> clientColumn = gridClient
-                .addColumn(Servicio::getClient).setHeader("Client");
+        Grid.Column<Client> usernameColumn = gridClient
+                .addColumn(Client::getUsername).setHeader("Username");
 
-        Grid.Column<Servicio> descriptionColumn = gridClient
-                .addColumn(Servicio::getDescription).setHeader("Description");
+        Grid.Column<Client> firstColumn = gridClient
+                .addColumn(Client::getFirstName).setHeader("First Name");
 
-        Grid.Column<Servicio> typeColumn = gridClient
-                .addColumn(Servicio::getType).setHeader("Type");
+        Grid.Column<Client> lastColumn = gridClient
+                .addColumn(Client::getLastName).setHeader("Last Name");
 
-        Grid.Column<Servicio> priceColumn = gridClient
-                .addColumn(Servicio::getPrice).setHeader("Price");
+        Grid.Column<Client> emailColumn = gridClient
+                .addColumn(Client::getEmail).setHeader("Email");
+
+        Grid.Column<Client> phoneColumn = gridClient
+                .addColumn(Client::getPhoneNumber).setHeader("Phone Number");
 
 
-        Editor<Servicio> editor = gridClient.getEditor();
 
-        Grid.Column<Servicio> editColumn = gridClient.addComponentColumn(person -> {
+
+        Editor<Client> editor = gridClient.getEditor();
+
+        Grid.Column<Client> editColumn = gridClient.addComponentColumn(person -> {
             Button editButton = new Button("Edit");
             editButton.addClickListener(e -> {
                 if (editor.isOpen())
@@ -86,35 +88,54 @@ public class BackServicesMainView extends VerticalLayout {
             return editButton;
         }).setWidth("150px").setFlexGrow(0);
 
-        Binder<Servicio> binder = new Binder<>(Servicio.class);
+        Binder<Client> binder = new Binder<>(Client.class);
         editor.setBinder(binder);
         editor.setBuffered(true);
 
-        TextField descriptionField = new TextField();
-        descriptionField.setWidthFull();
-        binder.forField(descriptionField)
-                .asRequired("First name must not be empty")
-                .bind(Servicio::getDescription, Servicio::setDescription);
-        descriptionColumn.setEditorComponent(descriptionField);
+        TextField usernameField = new TextField();
+        usernameField.setWidthFull();
+        binder.forField(usernameField)
+                .asRequired("Username must not be empty")
+                .bind(Client::getUsername, Client::setUsername);
+        usernameColumn.setEditorComponent(usernameField);
 
-        TextField typeField = new TextField();
-        descriptionField.setWidthFull();
-        binder.forField(typeField)
+        TextField firstField = new TextField();
+        firstField.setWidthFull();
+        binder.forField(firstField)
                 .asRequired("First name must not be empty")
-                .bind(Servicio::getType, Servicio::setType);
-        typeColumn.setEditorComponent(typeField);
+                .bind(Client::getFirstName, Client::setFirstName);
+        firstColumn.setEditorComponent(firstField);
 
-        TextField priceField = new TextField();
-        descriptionField.setWidthFull();
-        binder.forField(priceField)
-                .asRequired("First name must not be empty")
-                .bind(Servicio::getPrice, Servicio::setPrice);
-        priceColumn.setEditorComponent(priceField);
+        TextField lastField = new TextField();
+        lastField.setWidthFull();
+        binder.forField(lastField)
+                .asRequired("Last name must not be empty")
+                .bind(Client::getLastName, Client::setLastName);
+        lastColumn.setEditorComponent(lastField);
+
+        TextField emailField = new TextField();
+        emailField.setWidthFull();
+        binder.forField(emailField)
+                .asRequired("Email must not be empty")
+                .bind(Client::getEmail, Client::setEmail);
+        emailColumn.setEditorComponent(emailField);
+
+        TextField phoneField = new TextField();
+        phoneField.setWidthFull();
+        binder.forField(phoneField)
+                .asRequired("Phone must not be empty")
+                .bind(Client::getPhoneNumber, Client::setPhoneNumber);
+        phoneColumn.setEditorComponent(phoneField);
+
         gridClient.addSelectionListener(selectionEvent -> {
-            servicioService.save(selectionEvent.getFirstSelectedItem().get());
+            clientService.save(selectionEvent.getFirstSelectedItem().get());
         });
 
-        Button saveButton = new Button("Save", e -> editor.save());
+        Button saveButton = new Button("Save", e -> {
+            editor.save();
+        });
+
+
         Button cancelButton = new Button(VaadinIcon.CLOSE.create(),
                 e -> editor.cancel());
         cancelButton.addThemeVariants(ButtonVariant.LUMO_ICON,
@@ -124,10 +145,10 @@ public class BackServicesMainView extends VerticalLayout {
         actions.setPadding(false);
         editColumn.setEditorComponent(actions);
 
-        List<Servicio> listServicio = servicioService.findAll();
+        List<Client> listClient = clientService.findAll();
+        gridClient.setItems(listClient);
 
 
-        gridClient.setItems(listServicio);
 
         Button goBack = new Button("Go Back to Main Menu", buttonClickEvent -> UI.getCurrent().navigate("internal"));
         goBack.setWidth("120px");

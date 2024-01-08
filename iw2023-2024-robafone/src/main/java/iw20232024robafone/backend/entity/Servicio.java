@@ -19,8 +19,8 @@ public class Servicio extends AbstractEntity {
     @NotNull
     private String description = "";
 
-    @ManyToMany
-    private List<Client> client;
+    @ManyToOne
+    private Client client;
 
     public String getType() {
         return type;
@@ -46,11 +46,11 @@ public class Servicio extends AbstractEntity {
         this.description = description;
     }
 
-    public List<Client> getClient() {
+    public Client getClient() {
         return client;
     }
 
-    public void setClient(List<Client> client) {
+    public void setClient(Client client) {
         this.client = client;
     }
 }

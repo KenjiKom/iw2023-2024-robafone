@@ -147,6 +147,7 @@ public class FrontOfficeMainView extends VerticalLayout {
         complaintDescription.setLabel("Please Explain Your Issue");
 
         Client finalCurrentClient = currentClient;
+        gridComplaint.setItems(complaintService.findComplaintByUser(finalCurrentClient.getUsername()));
         Button sendComplaint = new Button("Send Complaint", buttonClickEvent -> {
             sendComplaint(complaintSubject.getValue(), complaintDescription.getValue(), complaintService, clientService, finalCurrentClient);
             gridComplaint.setItems(complaintService.findComplaintByUser(finalCurrentClient.getUsername()));
@@ -174,6 +175,7 @@ public class FrontOfficeMainView extends VerticalLayout {
         grid.addColumn(Invoice::getEmployee).setHeader("Employee In Charge");
         grid.addColumn(Invoice::getCost).setHeader("Cost");
         grid.addColumn(Invoice::getInvoiceDate).setHeader("Date of Creation");
+
         grid.addSelectionListener(selection -> {
             Optional<Invoice> optionalInvoice = selection.getFirstSelectedItem();
             if(optionalInvoice.isPresent()){
@@ -295,8 +297,9 @@ public class FrontOfficeMainView extends VerticalLayout {
 
         Anchor a = new Anchor(resource, "");
         a.getElement().setAttribute("download", true);
-        a.add(new Button(new Icon(VaadinIcon.DOWNLOAD_ALT)));
+        a.add(new Button(new Icon(VaadinIcon.DOWNLOAD_ALT), buttonClickEvent ->  UI.getCurrent().getPage().reload()));
         add(a);
+
     }
 
 

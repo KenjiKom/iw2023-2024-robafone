@@ -78,10 +78,9 @@ public class FrontHireFiberMainView extends VerticalLayout {
                 newServicio.setDescription(description.getText());
                 newServicio.setPrice(gigas.getValue());
                 newServicio.setType("Fibra");
-                //TODO
-                List<Client> cliente = new ArrayList<Client>();
-                cliente.add(finalCurrentClient);
-                newServicio.setClient(cliente);
+
+
+                newServicio.setClient(finalCurrentClient);
                 servicioService.save(newServicio);
                 Notification.show("Service Hired!");
                 UI.getCurrent().navigate("client");
