@@ -1,0 +1,6 @@
+1. Al darle varias veces a una factura, me sale multiples veces el boton de descarga, y este se mantiene en el resto de opciones del main.
+2. En el apartado de Consultar Servicios Activos, Falta la opcion para cancelar servicio.
+3. Falta añadir un apartado de consumo diario de datos (no se muy bien como hacerlo, luego lo veo).
+4. Los complaints no aparecen hasta que no se envia uno.
+5. En el apartado de Gestionar los OPen User Tickets, debe aparecer en la tabla tambien en numero de telefono del cliente
+6. Falta en Empleado, el apartado de GEstionar Contratos de Cliente. Parecido al de Gestionar Servicios de Cliente, donde se pueda terminar el contrato de un cliente, o modificar sus datos.
