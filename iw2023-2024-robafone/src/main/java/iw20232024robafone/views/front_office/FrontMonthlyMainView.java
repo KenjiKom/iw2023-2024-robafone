@@ -86,6 +86,7 @@ public class FrontMonthlyMainView extends VerticalLayout {
         List<Sms> filteredSmsList = new ArrayList<>();
 
         for (int i = 0; i < listAllSms.size(); i++){
+            //Cambio aqui
             if(listAllSms.get(i).getSmsDate().isBefore(LocalDateTime.now()) && listAllSms.get(i).getSmsDate().isAfter(LocalDateTime.now().minusDays(31))){
                 filteredSmsList.add(listAllSms.get(i));
             }

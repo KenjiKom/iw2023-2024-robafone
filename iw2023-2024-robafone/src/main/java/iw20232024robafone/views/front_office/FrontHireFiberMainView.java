@@ -83,8 +83,6 @@ public class FrontHireFiberMainView extends VerticalLayout {
 
         tarifaGrid.setHeight("50px");
 
-        tarifaGrid.setAllRowsVisible(true);
-
         tarifaGrid.setItems(listTarifas);
 
         Client finalCurrentClient = currentClient;
