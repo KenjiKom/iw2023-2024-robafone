@@ -8,10 +8,12 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.dataview.GridListDataView;
 import com.vaadin.flow.component.grid.editor.Editor;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
@@ -19,8 +21,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import iw20232024robafone.backend.entity.Client;
+import iw20232024robafone.backend.entity.Complaint;
 import iw20232024robafone.backend.entity.Employee;
 import iw20232024robafone.backend.entity.Servicio;
 import iw20232024robafone.backend.service.ClientService;
@@ -156,6 +160,28 @@ public class BackCustomersMainView extends VerticalLayout {
         List<Client> listClient = clientService.findAll();
         gridClient.setItems(listClient);
 
+        GridListDataView<Client> dataView = gridClient.setItems(listClient);
+
+        TextField searchField = new TextField();
+        searchField.setWidth("50%");
+        searchField.setPlaceholder("Search Username");
+        searchField.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
+        searchField.setValueChangeMode(ValueChangeMode.EAGER);
+        searchField.addValueChangeListener(e -> dataView.refreshAll());
+
+
+        dataView.addFilter(service -> {
+            String searchTerm = searchField.getValue().trim();
+
+            if (searchTerm.isEmpty())
+                return true;
+
+            boolean matchesFirstName = matchesTerm(service.getUsername(),
+                    searchTerm);
+
+            return matchesFirstName ;
+        });
+
 
 
         Button goBack = new Button("Go Back to Main Menu", buttonClickEvent -> UI.getCurrent().navigate("internal"));
@@ -166,7 +192,7 @@ public class BackCustomersMainView extends VerticalLayout {
         buttonLayout.add(goBack);
         buttonLayout.setAlignItems(Alignment.START);
 
-        add(createHeaderContent(), new H2("Manage Services"), gridClient, buttonLayout);
+        add(createHeaderContent(), new H2("Manage Services"),searchField, gridClient, buttonLayout);
 
     }
     private Component createHeaderContent() {
@@ -209,5 +235,9 @@ public class BackCustomersMainView extends VerticalLayout {
         layout.add(new H1(currentPrincipalName.toUpperCase() +", Welcome to Robafone Internal"));
 
         return layout;
+    }
+
+    private boolean matchesTerm(String value, String searchTerm) {
+        return value.toLowerCase().contains(searchTerm.toLowerCase());
     }
 }
