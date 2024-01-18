@@ -9,10 +9,13 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.HeaderRow;
+import com.vaadin.flow.component.grid.dataview.GridListDataView;
 import com.vaadin.flow.component.grid.editor.Editor;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -21,6 +24,7 @@ import com.vaadin.flow.component.tabs.TabSheet;
 import com.vaadin.flow.component.tabs.TabSheetVariant;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import iw20232024robafone.backend.entity.Client;
 import iw20232024robafone.backend.entity.Complaint;
@@ -134,7 +138,31 @@ public class BackServicesMainView extends VerticalLayout {
 
 
 
-        gridClient.setItems(listServicio);
+        GridListDataView<Servicio> dataView = gridClient.setItems(listServicio);
+
+        TextField searchField = new TextField();
+        searchField.setWidth("50%");
+        searchField.setPlaceholder("Search");
+        searchField.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
+        searchField.setValueChangeMode(ValueChangeMode.EAGER);
+        searchField.addValueChangeListener(e -> dataView.refreshAll());
+
+
+        dataView.addFilter(service -> {
+            String searchTerm = searchField.getValue().trim();
+
+            if (searchTerm.isEmpty())
+                return true;
+
+            boolean matchesFirstName = matchesTerm(service.getClient().getFirstName(),
+                    searchTerm);
+
+            boolean matchesFastName = matchesTerm(service.getClient().getLastName(),
+                    searchTerm);
+
+            return matchesFirstName || matchesFastName ;
+        });
+
 
         Button goBack = new Button("Go Back to Main Menu", buttonClickEvent -> UI.getCurrent().navigate("internal"));
         goBack.setWidth("120px");
@@ -146,7 +174,7 @@ public class BackServicesMainView extends VerticalLayout {
 
 
 
-        add(createHeaderContent(), new H2("Manage Services"), gridClient, buttonLayout);
+        add(createHeaderContent(), new H2("Manage Services"),searchField, gridClient, buttonLayout);
 
     }
     private Component createHeaderContent() {
@@ -189,5 +217,9 @@ public class BackServicesMainView extends VerticalLayout {
         layout.add(new H1(currentPrincipalName.toUpperCase() +", Welcome to Robafone Internal"));
 
         return layout;
+    }
+
+    private boolean matchesTerm(String value, String searchTerm) {
+        return value.toLowerCase().contains(searchTerm.toLowerCase());
     }
 }

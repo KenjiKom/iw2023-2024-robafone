@@ -8,18 +8,23 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.dataview.GridListDataView;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import iw20232024robafone.backend.entity.Complaint;
 import iw20232024robafone.backend.entity.Employee;
+import iw20232024robafone.backend.entity.Servicio;
 import iw20232024robafone.backend.service.ComplaintService;
 import iw20232024robafone.backend.service.EmployeeService;
 import iw20232024robafone.security.SecurityService;
@@ -95,6 +100,31 @@ public class BackComplaintMainView extends VerticalLayout {
 
         grinComplaint.setItems(listComplaints);
 
+        GridListDataView<Complaint> dataView = grinComplaint.setItems(listComplaints);
+
+        TextField searchField = new TextField();
+        searchField.setWidth("50%");
+        searchField.setPlaceholder("Search");
+        searchField.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
+        searchField.setValueChangeMode(ValueChangeMode.EAGER);
+        searchField.addValueChangeListener(e -> dataView.refreshAll());
+
+
+        dataView.addFilter(service -> {
+            String searchTerm = searchField.getValue().trim();
+
+            if (searchTerm.isEmpty())
+                return true;
+
+            boolean matchesFirstName = matchesTerm(service.getClient().getFirstName(),
+                    searchTerm);
+
+            boolean matchesFastName = matchesTerm(service.getClient().getLastName(),
+                    searchTerm);
+
+            return matchesFirstName || matchesFastName ;
+        });
+
         Button goBack = new Button("Go Back to Main Menu", buttonClickEvent -> UI.getCurrent().navigate("internal"));
         goBack.setWidth("120px");
         goBack.setSizeFull();
@@ -103,7 +133,7 @@ public class BackComplaintMainView extends VerticalLayout {
         buttonLayout.add(goBack);
         buttonLayout.setAlignItems(Alignment.START);
 
-        add(createHeaderContent(), new H2("Manage Open Consults"), new H3("Select to Mark Complaint as Resolved"), grinComplaint, buttonLayout);
+        add(createHeaderContent(), new H2("Manage Open Consults"), new H3("Select to Mark Complaint as Resolved"),searchField, grinComplaint, buttonLayout);
 
     }
     private Component createHeaderContent() {
@@ -146,5 +176,9 @@ public class BackComplaintMainView extends VerticalLayout {
         layout.add(new H1(currentPrincipalName.toUpperCase() +", Welcome to Robafone Internal"));
 
         return layout;
+    }
+
+    private boolean matchesTerm(String value, String searchTerm) {
+        return value.toLowerCase().contains(searchTerm.toLowerCase());
     }
 }
