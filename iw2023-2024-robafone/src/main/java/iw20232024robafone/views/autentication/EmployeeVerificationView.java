@@ -10,11 +10,12 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import iw20232024robafone.backend.service.EmployeeService;
 
 @AnonymousAllowed
 @Route("employee_verification")
 public class EmployeeVerificationView extends VerticalLayout {
-    public EmployeeVerificationView (){
+    public EmployeeVerificationView (EmployeeService employeeService){
         //Set the layout to be centered in the page.
         setSizeFull();
         setAlignItems(FlexComponent.Alignment.CENTER);
@@ -35,19 +36,19 @@ public class EmployeeVerificationView extends VerticalLayout {
 
         Button primaryButton = new Button("Register",
                 //When the button is clicked, we check if the fields are OK. If then, the user is registered.
-                event -> Register(passwordField.getValue(), repeatPasswordField.getValue()));
+                event -> Register(passwordField.getValue(), repeatPasswordField.getValue(), employeeService));
         primaryButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         add(title, passwordField, repeatPasswordField, primaryButton);
     }
 
-    private void Register(String p1, String p2){
+    private void Register(String p1, String p2, EmployeeService employeeService){
         if(p1.isEmpty()){
             Notification.show("PIN is empty");
         } else if (!p1.equals(p2)) {
             Notification.show("PINs are not equal");
         } else if (p1.equals("aroldanleregalaronednl")){
-            UI.getCurrent().navigate("employee_register");
+            add(new EmployeeRegisterView(employeeService));
         } else {
             Notification.show("PIN not correct");
         }

@@ -142,7 +142,7 @@ public class BackServicesMainView extends VerticalLayout {
 
         TextField searchField = new TextField();
         searchField.setWidth("50%");
-        searchField.setPlaceholder("Search");
+        searchField.setPlaceholder("Search User");
         searchField.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
         searchField.setValueChangeMode(ValueChangeMode.EAGER);
         searchField.addValueChangeListener(e -> dataView.refreshAll());

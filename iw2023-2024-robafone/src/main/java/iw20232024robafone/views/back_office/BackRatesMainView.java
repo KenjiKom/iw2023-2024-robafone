@@ -7,6 +7,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -82,6 +83,40 @@ public class BackRatesMainView extends VerticalLayout {
             add(newGigas, newPrice, sendButton);
         });
 
+        FormLayout formLayout = new FormLayout();
+
+        TextField newGigas = new TextField("GBs Of The New Rate");
+
+        TextField newPrice = new TextField("Price of The New Rate");
+
+        Button sendNewPhoneService = new Button("Create New Phone Rate", e -> {
+            Tarifa newPhoneTarifa = new Tarifa();
+            newPhoneTarifa.setTipo("Phone");
+            newPhoneTarifa.setPrecio(newPrice.getValue());
+            newPhoneTarifa.setGigas(newGigas.getValue());
+            tarifaService.save(newPhoneTarifa);
+            Notification.show("New Rate Created");
+            UI.getCurrent().getPage().reload();
+        });
+        sendNewPhoneService.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        Button sendNewFiberService = new Button("Create New Fiber Rate", e -> {
+            Tarifa newPhoneTarifa = new Tarifa();
+            newPhoneTarifa.setTipo("Fiber");
+            newPhoneTarifa.setPrecio(newPrice.getValue());
+            newPhoneTarifa.setGigas(newGigas.getValue());
+            tarifaService.save(newPhoneTarifa);
+            Notification.show("New Rate Created");
+            UI.getCurrent().getPage().reload();
+        });
+
+        sendNewFiberService.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        HorizontalLayout buttonNewLayout = new HorizontalLayout();
+
+        buttonNewLayout.add(sendNewPhoneService, sendNewFiberService);
+
+        formLayout.add(newGigas, newPrice, buttonNewLayout);
 
         Button goBack = new Button("Go Back to Main Menu", buttonClickEvent -> UI.getCurrent().navigate("internal"));
         goBack.setWidth("120px");
@@ -91,7 +126,7 @@ public class BackRatesMainView extends VerticalLayout {
         buttonLayout.add(goBack);
         buttonLayout.setAlignItems(Alignment.START);
 
-        add(createHeaderContent(), new H2("Manage Rates"),new H4("Select Rates to Modify Them"),tarifaGrid, buttonLayout);
+        add(createHeaderContent(), new H2("Manage Rates"),new H4("Select Rates to Modify Them"),tarifaGrid, new  H4("Create A New Rate"),formLayout, buttonLayout);
 
     }
     private Component createHeaderContent() {

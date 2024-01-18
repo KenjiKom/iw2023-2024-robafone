@@ -20,8 +20,6 @@ import iw20232024robafone.security.SecurityService;
 
 import java.util.List;
 
-@AnonymousAllowed
-@Route("employee_register")
 @PageTitle("Register for Employees| Robafone")
 public class EmployeeRegisterView extends VerticalLayout {
 
