@@ -119,10 +119,13 @@ public class FrontOfficeMainView extends VerticalLayout {
         Button smsButton = new Button("SMS Registry", event -> UI.getCurrent().navigate("sms"));
         smsButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
+        Button consultMonthlyButton = new Button("Monthly Volume of Calls and SMS", event -> UI.getCurrent().navigate("monthly"));
+        consultMonthlyButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
         //Button fivegButton = new Button("5G Daily Volume", event -> UI.getCurrent().navigate("5g"));
         //fivegButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        VerticalLayout tabTwoLayout = new VerticalLayout(monthlyButton, callButton, smsButton);
+        VerticalLayout tabTwoLayout = new VerticalLayout(monthlyButton, callButton, smsButton, consultMonthlyButton);
 
         tabTwoLayout.setWidthFull();
         tabTwoLayout.setAlignItems(Alignment.STRETCH);
