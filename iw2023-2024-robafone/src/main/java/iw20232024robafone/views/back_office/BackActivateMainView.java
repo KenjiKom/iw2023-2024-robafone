@@ -57,16 +57,16 @@ public class BackActivateMainView extends VerticalLayout {
         Grid<Servicio> gridClient = new Grid<>(Servicio.class, false);
 
         Grid.Column<Servicio> clientColumn = gridClient
-                .addColumn(Servicio::getClient).setHeader("Client");
+                .addColumn(Servicio::getClient).setHeader("Client").setSortable(true);
 
         Grid.Column<Servicio> descriptionColumn = gridClient
-                .addColumn(Servicio::getDescription).setHeader("Description");
+                .addColumn(Servicio::getDescription).setHeader("Description").setSortable(true);
 
         Grid.Column<Servicio> typeColumn = gridClient
-                .addColumn(Servicio::getType).setHeader("Type");
+                .addColumn(Servicio::getType).setHeader("Type").setSortable(true);
 
         Grid.Column<Servicio> priceColumn = gridClient
-                .addColumn(Servicio::getPrice).setHeader("Price");
+                .addColumn(Servicio::getPrice).setHeader("Price").setSortable(true);
 
 
         Editor<Servicio> editor = gridClient.getEditor();

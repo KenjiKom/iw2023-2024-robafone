@@ -14,6 +14,12 @@ public class Complaint extends AbstractEntity {
     @NotNull
     private LocalDateTime dateComplaint;
 
+    @NotNull
+    private String resolverComment;
+
+    @NotNull
+    private Boolean resolved;
+
     @NotEmpty
     private String reason = "";
 
@@ -30,6 +36,15 @@ public class Complaint extends AbstractEntity {
     public String getReason() { return reason; }
 
     public void setReason(String reason) { this.reason = reason; }
+
+
+    public String getResolverComment() { return resolverComment; }
+
+    public void setResolverComment(String resolverComment) { this.resolverComment = resolverComment; }
+
+    public Boolean getResolved() { return resolved; }
+
+    public void setReasolved(Boolean bool) { this.resolved = bool; }
 
     public String getMessage() { return Message; }
 

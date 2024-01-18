@@ -16,6 +16,7 @@ import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import iw20232024robafone.backend.entity.Complaint;
 import iw20232024robafone.backend.entity.Employee;
@@ -23,6 +24,7 @@ import iw20232024robafone.backend.service.ComplaintService;
 import iw20232024robafone.backend.service.EmployeeService;
 import iw20232024robafone.security.SecurityService;
 import jakarta.annotation.security.RolesAllowed;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -55,17 +57,38 @@ public class BackComplaintMainView extends VerticalLayout {
         Grid<Complaint> grinComplaint = new Grid<>(Complaint.class, false);
         List<Complaint> listComplaints = complaintService.findAll();
 
-        grinComplaint.addColumn(Complaint::getClient).setHeader("Client");
-        grinComplaint.addColumn(Complaint::getReason).setHeader("Reason");
-        grinComplaint.addColumn(Complaint::getMessage).setHeader("Description");
-        grinComplaint.addColumn(Complaint::getDateComplaint).setHeader("Date Of Complaint");
+        grinComplaint.addColumn(Complaint::getClient).setHeader("Client").setSortable(true);
+        grinComplaint.addColumn(Complaint::getReason).setHeader("Reason").setSortable(true);
+        grinComplaint.addColumn(Complaint::getMessage).setHeader("Description").setSortable(true);
+        grinComplaint.addColumn(Complaint::getResolverComment).setHeader("Resolver Comment").setSortable(true);
+        grinComplaint.addColumn(Complaint::getResolved).setHeader("Is Resolved").setSortable(true);
+        grinComplaint.addColumn(Complaint::getDateComplaint).setHeader("Date Of Complaint").setSortable(true);
 
         grinComplaint.addSelectionListener(selection -> {
             Optional<Complaint> optionalPerson = selection.getFirstSelectedItem();
             if (optionalPerson.isPresent()) {
-                complaintService.delete(optionalPerson.get());
+
+                TextField commentText = new TextField("Comment the Complaint");
+
+                Button sendButton = new Button("Send Comment", e->{
+                    if(!commentText.isEmpty()){
+                        optionalPerson.get().setResolverComment(commentText.getValue());
+                        complaintService.save(optionalPerson.get());
+                        Notification.show("Comment Sent to User");
+                        UI.getCurrent().getPage().reload();
+                    }else{
+                        Notification.show("Empty Comment");
+                    }
+                });
+                Button markButton = new Button("Mark as Resolved", e-> {
+                    optionalPerson.get().setReasolved(true);
+                    complaintService.save(optionalPerson.get());
+                    Notification.show("Complaint Marked as Resolved");
+                    UI.getCurrent().getPage().reload();
+                });
+
+                add(commentText, sendButton, markButton);
                 grinComplaint.setItems(complaintService.findAll());
-                Notification.show("Complaint Marked as Resolved");
             }
         });
 

@@ -164,6 +164,8 @@ public class Application implements AppShellConfigurator {
             complaint1.setReason("Bad Service");
             complaint1.setMessage("This Roldan agent was so rude");
             complaint1.setDateComplaint(LocalDateTime.now());
+            complaint1.setReasolved(false);
+            complaint1.setResolverComment("No Resolver Comment");
             complaintRepository.save(complaint1);
 
             Complaint complaint2 = new Complaint();
@@ -171,6 +173,8 @@ public class Application implements AppShellConfigurator {
             complaint2.setReason("Bad Customer Service");
             complaint2.setMessage("Migue can bench 225");
             complaint2.setDateComplaint(LocalDateTime.now());
+            complaint2.setReasolved(false);
+            complaint2.setResolverComment("No Resolver Comment");
             complaintRepository.save(complaint2);
         };
     }

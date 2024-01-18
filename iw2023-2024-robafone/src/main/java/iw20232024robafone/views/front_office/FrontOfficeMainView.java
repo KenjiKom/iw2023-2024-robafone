@@ -179,7 +179,7 @@ public class FrontOfficeMainView extends VerticalLayout {
         grid.addSelectionListener(selection -> {
             Optional<Invoice> optionalInvoice = selection.getFirstSelectedItem();
             if(optionalInvoice.isPresent()){
-                String html = new String(optionalInvoice.get().getClient().toString() + " has a payment of: " + optionalInvoice.get().getCost().toString() +"$"+" with date of "+optionalInvoice.get().getInvoiceDate().toString());
+                String html = new String("<H1>Robafone Invoice</H1><br><H2>"+optionalInvoice.get().getClient().getFirstName().toString()+optionalInvoice.get().getClient().getLastName()+"</H2><br><table><tr><th>Date</th><th>Amount</th></tr><tr><td> "+optionalInvoice.get().getInvoiceDate().toString()+" </td><td>"+ optionalInvoice.get().getCost().toString() +"</td></tr></table>");
                 try {
                     download(html);
                 } catch (DocumentException e) {
@@ -319,6 +319,7 @@ public class FrontOfficeMainView extends VerticalLayout {
         newComplaint.setReason(subject);
         newComplaint.setMessage(description);
         newComplaint.setClient(clientService.findClientByUsername(currentClient.getUsername()));
+        newComplaint.setReasolved(false);
         complaintService.save(newComplaint);
         Notification.show("Complaint Sent");
     }
