@@ -8,36 +8,32 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import iw20232024robafone.backend.entity.Client;
+import iw20232024robafone.backend.entity.Complaint;
 import iw20232024robafone.backend.entity.Employee;
-import iw20232024robafone.backend.entity.Invoice;
-import iw20232024robafone.backend.entity.Servicio;
-import iw20232024robafone.backend.service.*;
+import iw20232024robafone.backend.entity.Tarifa;
+import iw20232024robafone.backend.service.ComplaintService;
+import iw20232024robafone.backend.service.EmployeeService;
+import iw20232024robafone.backend.service.TarifaService;
 import iw20232024robafone.security.SecurityService;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 @RolesAllowed("EMPLOYEE")
-@Route("invoice")
-public class BackInvoiceMainView extends VerticalLayout {
+@Route("rates")
+public class BackRatesMainView extends VerticalLayout {
     private final SecurityService securityService;
-    public BackInvoiceMainView(SecurityService securityService, EmployeeService employeeService, ComplaintService complaintService, ClientService clientService, ServicioService servicioService, InvoiceService invoiceService) {
+    public BackRatesMainView(SecurityService securityService, EmployeeService employeeService, TarifaService tarifaService) {
         this.securityService = securityService;
 
         //Set the layout to be centered in the page.
@@ -56,58 +52,36 @@ public class BackInvoiceMainView extends VerticalLayout {
             }
         }
 
-        Grid<Client> gridClient = new Grid<>(Client.class, false);
+        Grid<Tarifa> tarifaGrid = new Grid<>(Tarifa.class, false);
 
-        gridClient.addColumn(Client::getFirstName).setHeader("First Name");
-        gridClient.addColumn(Client::getLastName).setHeader("Last Name");
-        gridClient.addColumn(Client::getEmail).setHeader("Email");
-        gridClient.addColumn(Client::getPhoneNumber).setHeader("Phone");
-        gridClient.addColumn(Client::getDataUsage).setHeader("Data Usage");
-        gridClient.addColumn(Client::getMonthlyVolume).setHeader("Monthly Volume");
+        tarifaGrid.addColumn(Tarifa::getTipo).setHeader("Type of Rate").setSortable(true);
+        tarifaGrid.addColumn(Tarifa::getGigas).setHeader("GB ").setSortable(true);
+        tarifaGrid.addColumn(Tarifa::getPrecio).setHeader("Price").setSortable(true);
 
-        VerticalLayout crudLayout = new VerticalLayout();
+        tarifaGrid.setItems(tarifaService.findAll());
 
-        AtomicReference<Boolean> clicked = new AtomicReference<>(false);
-        Employee finalCurrentEmployee = currentEmployee;
-        gridClient.addSelectionListener(selection -> {
-            Optional<Client> optionalPerson = selection.getFirstSelectedItem();
-            if (optionalPerson.isPresent()) {
-                H2 title = new H2("List of Bills of Selected Client");
+        tarifaGrid.addSelectionListener(selectionEvent -> {
+            TextField newGigas = new TextField("Introduce GB");
+            newGigas.setValue(selectionEvent.getFirstSelectedItem().get().getGigas());
 
-                Grid<Servicio> gridInvoice = new Grid<>(Servicio.class, false);
+            TextField newPrice = new TextField("Introduce Price");
+            newPrice.setValue(selectionEvent.getFirstSelectedItem().get().getPrecio());
 
+            Button sendButton = new Button("Save Changes", e->{
 
-                selection.getFirstSelectedItem().get().getUsername();
-
-                gridInvoice.addColumn(Servicio::getClient).setHeader("Client");
-                gridInvoice.addColumn(Servicio::getType).setHeader("Service");
-                gridInvoice.addColumn(Servicio::getDescription).setHeader("Description");
-                gridInvoice.addColumn(Servicio::getPrice).setHeader("Price");
-
-                gridInvoice.setSelectionMode(Grid.SelectionMode.MULTI);
-
-                gridInvoice.setItems(servicioService.findServiciotByUser(selection.getFirstSelectedItem().get().getUsername()));
-                gridInvoice.addSelectionListener(selectionServicio -> {
-                    Optional<Servicio> optionalServicio = selectionServicio.getFirstSelectedItem();
-                    if (optionalServicio.isPresent()) {
-
-                        Invoice invoice = new Invoice();
-                        invoice.setClient(selection.getFirstSelectedItem().get());
-                        invoice.setService(selectionServicio.getFirstSelectedItem().get());
-                        invoice.setEmployee(finalCurrentEmployee);
-                        invoice.setInvoiceDate(LocalDateTime.now());
-                        invoice.setCost(selectionServicio.getFirstSelectedItem().get().getPrice());
-                        invoiceService.save(invoice);
-
-                        Notification.show("Invoice Sent");
-                    }
-                });
-                crudLayout.add(title, gridInvoice);
-            }
+                if(newPrice.isEmpty() || newGigas.isEmpty()){
+                    Notification.show("Empty Value");
+                }else{
+                    selectionEvent.getFirstSelectedItem().get().setGigas(newGigas.getValue());
+                    selectionEvent.getFirstSelectedItem().get().setPrecio(newPrice.getValue());
+                    tarifaService.save(selectionEvent.getFirstSelectedItem().get());
+                    Notification.show("Changes Saved");
+                    UI.getCurrent().getPage().reload();
+                }
+            });
+            add(newGigas, newPrice, sendButton);
         });
 
-
-        gridClient.setItems(clientService.findAll());
 
         Button goBack = new Button("Go Back to Main Menu", buttonClickEvent -> UI.getCurrent().navigate("internal"));
         goBack.setWidth("120px");
@@ -117,7 +91,7 @@ public class BackInvoiceMainView extends VerticalLayout {
         buttonLayout.add(goBack);
         buttonLayout.setAlignItems(Alignment.START);
 
-        add(createHeaderContent(), new H2("Send Bills"), new H3("Select A Client to Send A Bill"), gridClient, crudLayout ,buttonLayout);
+        add(createHeaderContent(), new H2("Manage Rates"),new H4("Select Rates to Modify Them"),tarifaGrid, buttonLayout);
 
     }
     private Component createHeaderContent() {
@@ -161,5 +135,4 @@ public class BackInvoiceMainView extends VerticalLayout {
 
         return layout;
     }
-
 }

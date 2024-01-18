@@ -10,16 +10,14 @@ import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import iw20232024robafone.backend.entity.Client;
-import iw20232024robafone.backend.entity.Employee;
-import iw20232024robafone.backend.entity.Invoice;
-import iw20232024robafone.backend.entity.Servicio;
+import iw20232024robafone.backend.entity.*;
 import iw20232024robafone.backend.service.*;
 import iw20232024robafone.security.SecurityService;
 import jakarta.annotation.security.RolesAllowed;
@@ -36,12 +34,12 @@ import java.util.concurrent.atomic.AtomicReference;
 @Route("hire_fiber")
 public class FrontHireFiberMainView extends VerticalLayout {
     private final SecurityService securityService;
-    public FrontHireFiberMainView(SecurityService securityService, EmployeeService employeeService, ComplaintService complaintService, ClientService clientService, ServicioService servicioService, InvoiceService invoiceService) {
+    public FrontHireFiberMainView(SecurityService securityService, EmployeeService employeeService, ComplaintService complaintService, ClientService clientService, ServicioService servicioService, InvoiceService invoiceService, TarifaService tarifaService) {
         this.securityService = securityService;
 
         //Set the layout to be centered in the page.
         setSizeFull();
-        setAlignItems(Alignment.STRETCH);
+        //setAlignItems(Alignment.STRETCH);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -64,15 +62,50 @@ public class FrontHireFiberMainView extends VerticalLayout {
         buttonLayout.add(goBack);
         buttonLayout.setAlignItems(Alignment.START);
 
-        Text description = new Text("Fiber-optic internet, commonly called fiber internet or simply “fiber,” is a broadband connection that can reach speeds of up to 10 Gigabits per second (Gbps) in some areas.\n" +
-                "\n" +
-                " \n" +
-                "\n" +
-                "The technology uses fiber-optic cable, which amazingly can send data as fast as about 70% the speed of light. In addition, fiber-optic cables are not as susceptible to severe weather conditions as other types of cables. These sturdy fiber cables have minimal outages as compared to others. They also resist electrical interference.");
-
+        Text description = new Text("Fiber-optic internet, commonly called fiber internet or simply “fiber,” is a broadband connection that can reach speeds of up to 10 Gigabits per second (Gbps) in some areas.");
         TextField gigas = new TextField("Choose GB's ($5 per GB)");
         gigas.setWidth("250px");
 
+
+        H3 texto = new H3("Select the desired rate");
+        List<Tarifa> listTarifas = tarifaService.findAll();
+
+        for (int i = 0; i < listTarifas.size(); i++){
+            if(listTarifas.get(i).getTipo().equals("Phone")){
+                listTarifas.remove(i);
+            }
+        }
+
+        Grid<Tarifa> tarifaGrid = new Grid<>(Tarifa.class, false);
+
+        tarifaGrid.addColumn(Tarifa::getGigas).setHeader("Gigas");
+        tarifaGrid.addColumn(Tarifa::getPrecio).setHeader("Price");
+
+        tarifaGrid.setHeight("50px");
+
+        tarifaGrid.setAllRowsVisible(true);
+
+        tarifaGrid.setItems(listTarifas);
+
+        Client finalCurrentClient = currentClient;
+        tarifaGrid.addSelectionListener(selection->{
+            Button hireRateButton = new Button("Hire this Service", e->{
+                Servicio newServicio = new Servicio();
+                newServicio.setDescription(description.getText());
+                newServicio.setPrice(selection.getFirstSelectedItem().get().getPrecio());
+                newServicio.setType("Fibra");
+                newServicio.setValidated(false);
+                newServicio.setClient(finalCurrentClient);
+                newServicio.setDateService(LocalDateTime.now());
+                servicioService.save(newServicio);
+                Notification.show("Service Hired!");
+                UI.getCurrent().navigate("client");
+            });
+            hireRateButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+            add(hireRateButton);
+        });
+
+/*
         Client finalCurrentClient = currentClient;
         Button hireService = new Button("Hire this service", buttonClickEvent -> {
             if(gigas.equals("0") || gigas.equals("00") || gigas.equals("000") || gigas.equals("0000") || gigas.equals("000000") || gigas.equals("0000000")){
@@ -93,10 +126,10 @@ public class FrontHireFiberMainView extends VerticalLayout {
                 UI.getCurrent().navigate("client");
             }
         });
-        hireService.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        hireService.addThemeVariants(ButtonVariant.LUMO_PRIMARY);*/
 
 
-        add(createHeaderContent(), new H2("Hire Fiber With Robafone"),description, gigas, hireService ,buttonLayout);
+        add(createHeaderContent(), new H2("Hire Fiber With Robafone"),description,texto, tarifaGrid ,buttonLayout);
 
     }
     private Component createHeaderContent() {

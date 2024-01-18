@@ -33,7 +33,7 @@ public class Application implements AppShellConfigurator {
 
     @Bean
     public CommandLineRunner loadData(ClientRepository clientRepository, EmployeeRepository employeeRepository, LlamadaRepository llamadaRepository, InvoiceRepository invoiceRepository,
-                                      ServicioRepository servicioRepository, SmsRepository smsRepository, ComplaintRepository complaintRepository) {
+                                      ServicioRepository servicioRepository, SmsRepository smsRepository, ComplaintRepository complaintRepository, TarifaRepository tarifaRepository) {
 
         return (args) -> {
             Client client1 = new Client();
@@ -176,6 +176,44 @@ public class Application implements AppShellConfigurator {
             complaint2.setReasolved(false);
             complaint2.setResolverComment("No Resolver Comment");
             complaintRepository.save(complaint2);
+
+            Tarifa tarifaFifra1 = new Tarifa();
+            tarifaFifra1.setGigas("5");
+            tarifaFifra1.setPrecio("15.99");
+            tarifaFifra1.setTipo("Fiber");
+            tarifaRepository.save(tarifaFifra1);
+
+            Tarifa tarifaFifra2 = new Tarifa();
+            tarifaFifra2.setGigas("10");
+            tarifaFifra2.setPrecio("19.99");
+            tarifaFifra2.setTipo("Fiber");
+            tarifaRepository.save(tarifaFifra2);
+
+            Tarifa tarifaFifra3 = new Tarifa();
+            tarifaFifra3.setGigas("15");
+            tarifaFifra3.setPrecio("23.99");
+            tarifaFifra3.setTipo("Fiber");
+            tarifaRepository.save(tarifaFifra3);
+
+            Tarifa tarifaPhone1 = new Tarifa();
+            tarifaPhone1.setGigas("5");
+            tarifaPhone1.setPrecio("10.99");
+            tarifaPhone1.setTipo("Phone");
+            tarifaRepository.save(tarifaPhone1);
+
+            Tarifa tarifaPhone2 = new Tarifa();
+            tarifaPhone2.setGigas("10");
+            tarifaPhone2.setPrecio("15.99");
+            tarifaPhone2.setTipo("Phone");
+            tarifaRepository.save(tarifaPhone2);
+
+            Tarifa tarifaPhone3 = new Tarifa();
+            tarifaPhone3.setGigas("15");
+            tarifaPhone3.setPrecio("20.99");
+            tarifaPhone3.setTipo("Phone");
+            tarifaRepository.save(tarifaPhone3);
+
+
         };
     }
 }

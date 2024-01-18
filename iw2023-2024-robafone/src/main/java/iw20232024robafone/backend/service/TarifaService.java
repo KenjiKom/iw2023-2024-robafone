@@ -1,6 +1,7 @@
 package iw20232024robafone.backend.service;
 
 import iw20232024robafone.backend.entity.Complaint;
+import iw20232024robafone.backend.entity.Sms;
 import iw20232024robafone.backend.entity.Tarifa;
 import iw20232024robafone.backend.repository.ComplaintRepository;
 import iw20232024robafone.backend.repository.TarifaRepository;
@@ -22,6 +23,8 @@ public class TarifaService {
 
     public List<Tarifa> findAll() { return tarifaRepository.findAll(); }
 
+    public Optional<Tarifa> findSms(Tarifa tarifa) {return tarifaRepository.findById(tarifa.getId()); }
+
 
     public long count() {
         return tarifaRepository.count();
@@ -37,5 +40,21 @@ public class TarifaService {
             return;
         }
         tarifaRepository.save(tarifa);
+    }
+
+    public List<Tarifa> findTarifaByType(String tipo){
+        List<Tarifa> allTarifas = tarifaRepository.findAll();
+        List<Tarifa> filteredTarifas = new ArrayList<>();
+
+        for(int i = 0; i< allTarifas.size(); i++){
+
+            if(allTarifas.get(i).getTipo() == tipo){
+                filteredTarifas.add(allTarifas.get(i));
+            }
+
+        }
+
+        return filteredTarifas;
+
     }
 }

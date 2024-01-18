@@ -8,9 +8,11 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -19,12 +21,14 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import iw20232024robafone.backend.entity.Client;
 import iw20232024robafone.backend.entity.Servicio;
+import iw20232024robafone.backend.entity.Tarifa;
 import iw20232024robafone.backend.service.*;
 import iw20232024robafone.security.SecurityService;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +36,7 @@ import java.util.List;
 @Route("hire_phone")
 public class FrontHirePhoneMainView extends VerticalLayout {
     private final SecurityService securityService;
-    public FrontHirePhoneMainView(SecurityService securityService, EmployeeService employeeService, ComplaintService complaintService, ClientService clientService, ServicioService servicioService, InvoiceService invoiceService) {
+    public FrontHirePhoneMainView(SecurityService securityService, EmployeeService employeeService, ClientService clientService, ServicioService servicioService, TarifaService tarifaService) {
         this.securityService = securityService;
 
         //Set the layout to be centered in the page.
@@ -65,6 +69,46 @@ public class FrontHirePhoneMainView extends VerticalLayout {
         TextField gigas = new TextField("How many MB? ($3 per MB)");
         gigas.setWidth("250px");
 
+        H3 texto = new H3("Select the desired rate");
+        List<Tarifa> listTarifas = tarifaService.findAll();
+
+        for (int i = 0; i < listTarifas.size(); i++){
+            if(listTarifas.get(i).getTipo().equals("Fiber")){
+                listTarifas.remove(i);
+            }
+        }
+
+        Grid<Tarifa> tarifaGrid = new Grid<>(Tarifa.class, false);
+
+        tarifaGrid.addColumn(Tarifa::getGigas).setHeader("Gigas");
+        tarifaGrid.addColumn(Tarifa::getPrecio).setHeader("Price");
+
+        tarifaGrid.setHeight("50px");
+
+        tarifaGrid.setAllRowsVisible(true);
+
+        tarifaGrid.setItems(listTarifas);
+
+        Client finalCurrentClient = currentClient;
+        tarifaGrid.addSelectionListener(selection->{
+            Button hireRateButton = new Button("Hire this Service", e->{
+                Servicio newServicio = new Servicio();
+                newServicio.setDescription(description.getText());
+                newServicio.setPrice(selection.getFirstSelectedItem().get().getPrecio());
+                newServicio.setType("Phone");
+                newServicio.setValidated(false);
+                newServicio.setClient(finalCurrentClient);
+                newServicio.setDateService(LocalDateTime.now());
+                servicioService.save(newServicio);
+                Notification.show("Service Hired!");
+                UI.getCurrent().navigate("client");
+            });
+            hireRateButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+            add(hireRateButton);
+        });
+
+        /*
+
         Client finalCurrentClient = currentClient;
         Button hireService = new Button("Hire this service", buttonClickEvent -> {
             if(gigas.equals("0") || gigas.equals("00") || gigas.equals("000") || gigas.equals("0000") || gigas.equals("000000") || gigas.equals("0000000")){
@@ -78,7 +122,7 @@ public class FrontHirePhoneMainView extends VerticalLayout {
                 newServicio.setPrice(precioFinal);
                 newServicio.setType("Fijo");
                 newServicio.setValidated(false);
-                //TODO
+
                 List<Client> cliente = new ArrayList<Client>();
                 cliente.add(finalCurrentClient);
                 newServicio.setClient(finalCurrentClient);
@@ -87,10 +131,10 @@ public class FrontHirePhoneMainView extends VerticalLayout {
                 UI.getCurrent().navigate("client");
             }
         });
-        hireService.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        hireService.addThemeVariants(ButtonVariant.LUMO_PRIMARY);*/
 
 
-        add(createHeaderContent(), new H2("Hire Phone With Robafone"),description, gigas, hireService ,buttonLayout);
+        add(createHeaderContent(), new H2("Hire Phone With Robafone"),description, texto, tarifaGrid,buttonLayout);
 
     }
     private Component createHeaderContent() {

@@ -40,14 +40,16 @@ public class BackOfficeMainView extends VerticalLayout {
         //Components for 1st tab----------------------------------------------
         Text hire_title = new Text("Sales And Marketing Internal Tools");
 
-        Button fiberButton = new Button("Manage Services and Rates", event -> UI.getCurrent().navigate("services"));
+        Button fiberButton = new Button("Manage Services", event -> UI.getCurrent().navigate("services"));
         fiberButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        Button ratesButton = new Button("Manage Rates", event -> UI.getCurrent().navigate("rates"));
+        ratesButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         Button customerButton = new Button("Manage Customers", event -> UI.getCurrent().navigate("customers"));
         customerButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         Button validationButton = new Button("Activate Pending Services", event -> UI.getCurrent().navigate("pending"));
         validationButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        VerticalLayout formLayout = new VerticalLayout(fiberButton, customerButton, validationButton);
 
+        VerticalLayout formLayout = new VerticalLayout(fiberButton, ratesButton, customerButton, validationButton);
 
         formLayout.setWidthFull();
         formLayout.setAlignItems(Alignment.STRETCH);

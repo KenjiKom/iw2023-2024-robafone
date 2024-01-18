@@ -16,7 +16,7 @@ public class Tarifa extends AbstractEntity {
     private String precio;
 
     @NotNull
-    private String type;
+    private String tipo;
 
 
     public String getGigas() { return gigas; }
@@ -27,9 +27,10 @@ public class Tarifa extends AbstractEntity {
 
     public void setPrecio(String precio) { this.precio = precio; }
 
-    public String getType() { return type; }
 
-    public void setType(String type) { this.precio = type; }
+    public String getTipo() { return tipo; }
+
+    public void setTipo(String tipo) { this.tipo = tipo; }
 
     
 }
