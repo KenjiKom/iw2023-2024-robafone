@@ -208,7 +208,7 @@ public class FrontOfficeMainView extends VerticalLayout {
 
         Client finalCurrentClient1 = currentClient;
         HorizontalLayout roamingLayout = new HorizontalLayout();
-        Button roamingButton = new Button("Active Roaming", buttonClickEvent -> {
+        Button roamingButton = new Button("Activate Roaming", buttonClickEvent -> {
             finalCurrentClient1.setRoaming(true);
             clientService.save(finalCurrentClient1);
             Notification.show("Roaming Activated");
@@ -224,7 +224,7 @@ public class FrontOfficeMainView extends VerticalLayout {
         roamingLayout.add(roamingButton,deleteRoamingButton);
 
         HorizontalLayout datosCompLayout = new HorizontalLayout();
-        Button datosCompButton = new Button("Active Share Data", buttonClickEvent -> {
+        Button datosCompButton = new Button("Activate Share Data", buttonClickEvent -> {
             finalCurrentClient1.setDatosCompartidos(true);
             clientService.save(finalCurrentClient1);
             Notification.show("Data Share Activated");
@@ -240,13 +240,13 @@ public class FrontOfficeMainView extends VerticalLayout {
         datosCompLayout.add(datosCompButton,deleteDatosCompButton);
 
         HorizontalLayout blockButtonLayout  = new HorizontalLayout();
-        Button blockButton = new Button("Active Block Numbers", buttonClickEvent -> {
+        Button blockButton = new Button("Activate Block Numbers", buttonClickEvent -> {
             finalCurrentClient1.setNumerosBloqueados(true);
             clientService.save(finalCurrentClient1);
             Notification.show("Block Numbers Activated");
             UI.getCurrent().getPage().reload();
         });
-        Button deleteBlockButton = new Button("Active Block Numbers", buttonClickEvent -> {
+        Button deleteBlockButton = new Button("Deactivate Block Numbers", buttonClickEvent -> {
             finalCurrentClient1.setNumerosBloqueados(false);
             clientService.save(finalCurrentClient1);
             Notification.show("Block Numbers Deactivated");
@@ -293,7 +293,9 @@ public class FrontOfficeMainView extends VerticalLayout {
         SubMenu subItems = item.getSubMenu();
         Button logout = new Button("Log out ", e -> securityService.logout());
         logout.addThemeVariants(ButtonVariant.LUMO_ERROR);
-
+        Button profile = new Button("Profile ", e -> UI.getCurrent().navigate("profile"));
+        logout.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        subItems.addItem(profile);
         subItems.addItem(logout);
 
         menuBar.getStyle().set("background-color", "transparent");

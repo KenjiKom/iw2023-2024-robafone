@@ -64,7 +64,11 @@ public class FrontHireFiberMainView extends VerticalLayout {
         buttonLayout.add(goBack);
         buttonLayout.setAlignItems(Alignment.START);
 
-        Text description = new Text("Especificaciones de tu router, además de detalles de tu oferta contratada como la velocidad de subida y bajada");
+        Text description = new Text("Fiber-optic internet, commonly called fiber internet or simply “fiber,” is a broadband connection that can reach speeds of up to 10 Gigabits per second (Gbps) in some areas.\n" +
+                "\n" +
+                " \n" +
+                "\n" +
+                "The technology uses fiber-optic cable, which amazingly can send data as fast as about 70% the speed of light. In addition, fiber-optic cables are not as susceptible to severe weather conditions as other types of cables. These sturdy fiber cables have minimal outages as compared to others. They also resist electrical interference.");
 
         TextField gigas = new TextField("Choose GB's ($5 per GB)");
         gigas.setWidth("250px");
@@ -116,6 +120,10 @@ public class FrontHireFiberMainView extends VerticalLayout {
         SubMenu subItems = item.getSubMenu();
         Button logout = new Button("Log out ", e -> securityService.logout());
         logout.addThemeVariants(ButtonVariant.LUMO_ERROR);
+
+        Button profile = new Button("Profile ", e -> UI.getCurrent().navigate("profile"));
+        logout.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        subItems.addItem(profile);
 
         subItems.addItem(logout);
 

@@ -101,6 +101,9 @@ public class FrontServicesMainView extends VerticalLayout {
         SubMenu subItems = item.getSubMenu();
         Button logout = new Button("Log out ", e -> securityService.logout());
         logout.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        Button profile = new Button("Profile ", e -> UI.getCurrent().navigate("profile"));
+        logout.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        subItems.addItem(profile);
 
         subItems.addItem(logout);
 

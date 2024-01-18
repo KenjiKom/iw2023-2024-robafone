@@ -60,7 +60,7 @@ public class FrontHirePhoneMainView extends VerticalLayout {
         buttonLayout.add(goBack);
         buttonLayout.setAlignItems(Alignment.START);
 
-        Text description = new Text("Conocer qué tiene y cómo es la tarifa que esté actualmente activada, además de todos los extras y la actualización del consumo realizado.");
+        Text description = new Text("The basic standard phone offering consists of phone service/dial tone, basic feature and functionality, standard programming of phone, ability to make and receive calls, personalized phone number and voice mailbox.");
 
         TextField gigas = new TextField("How many MB? ($3 per MB)");
         gigas.setWidth("250px");
@@ -114,6 +114,9 @@ public class FrontHirePhoneMainView extends VerticalLayout {
         SubMenu subItems = item.getSubMenu();
         Button logout = new Button("Log out ", e -> securityService.logout());
         logout.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        Button profile = new Button("Profile ", e -> UI.getCurrent().navigate("profile"));
+        logout.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        subItems.addItem(profile);
 
         subItems.addItem(logout);
 
