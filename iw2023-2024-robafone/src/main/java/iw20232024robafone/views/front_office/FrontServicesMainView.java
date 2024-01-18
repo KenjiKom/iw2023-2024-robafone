@@ -63,7 +63,11 @@ public class FrontServicesMainView extends VerticalLayout {
         });
 
         //gridCalls.setItems(servicioService.findAll());
-        gridCalls.setItems(servicioService.findServiciotByUser(currentClient.getUsername()));
+        List<Servicio> listaFiltrada = servicioService.findServiciotByUser(currentClient.getUsername());
+        for(int i = 0; i < listaFiltrada.size(); i++){
+            if(!listaFiltrada.get(i).getValidated()) listaFiltrada.remove(i);
+        }
+        gridCalls.setItems( servicioService.findServiciotByUser(currentClient.getUsername()));
 
         Button goBack = new Button("Go Back to Main Menu", buttonClickEvent -> UI.getCurrent().navigate("client"));
         goBack.setWidth("120px");

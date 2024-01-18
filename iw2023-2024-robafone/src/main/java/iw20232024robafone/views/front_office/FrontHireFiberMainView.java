@@ -66,7 +66,7 @@ public class FrontHireFiberMainView extends VerticalLayout {
 
         Text description = new Text("Especificaciones de tu router, además de detalles de tu oferta contratada como la velocidad de subida y bajada");
 
-        TextField gigas = new TextField("How Much Do You Want to Pay");
+        TextField gigas = new TextField("Choose GB's ($5 per GB)");
         gigas.setWidth("250px");
 
         Client finalCurrentClient = currentClient;
@@ -74,11 +74,14 @@ public class FrontHireFiberMainView extends VerticalLayout {
             if(gigas.equals("0") || gigas.equals("00") || gigas.equals("000") || gigas.equals("0000") || gigas.equals("000000") || gigas.equals("0000000")){
                 Notification.show("Dont try to scam us");
             }else {
+                String precio = gigas.getValue();
+                Integer precioInt = Integer.parseInt(precio) * 5;
+                String precioFinal = String.valueOf(precioInt);
                 Servicio newServicio = new Servicio();
                 newServicio.setDescription(description.getText());
-                newServicio.setPrice(gigas.getValue());
+                newServicio.setPrice(precioFinal);
                 newServicio.setType("Fibra");
-
+                newServicio.setValidated(false);
 
                 newServicio.setClient(finalCurrentClient);
                 servicioService.save(newServicio);

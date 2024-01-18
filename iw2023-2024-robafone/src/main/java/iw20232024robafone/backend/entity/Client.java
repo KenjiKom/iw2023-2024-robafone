@@ -20,6 +20,25 @@ public class Client extends Usuario {
     @OneToMany
     private List<Servicio> services;
 
+    @NotNull
+    private Boolean roaming;
+    @NotNull
+    private Boolean datosCompartidos;
+    @NotNull
+    private Boolean numerosBloqueados;
+    public boolean getRoaming() {return roaming;}
+    public void setRoaming(boolean roaming) {
+        this.roaming = roaming;
+    }
+    public boolean getDatosCompartidos() {return datosCompartidos;}
+    public void setDatosCompartidos(boolean datosCompartidos) {
+        this.datosCompartidos = datosCompartidos;
+    }
+    public boolean getNumerosBloqueados() {return numerosBloqueados;}
+    public void setNumerosBloqueados(boolean numerosBloqueados) {
+        this.numerosBloqueados = numerosBloqueados;
+    }
+
     public double getMonthlyVolume() {
         return monthlyVolume;
     }

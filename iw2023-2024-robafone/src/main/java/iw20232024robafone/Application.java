@@ -42,6 +42,9 @@ public class Application implements AppShellConfigurator {
             client1.setLastName("Gonzalez");
             client1.setPhoneNumber("666666666");
             client1.setEmail("pepegonza@gmail.com");
+            client1.setRoaming(false);
+            client1.setDatosCompartidos(false);
+            client1.setNumerosBloqueados(false);
             client1.setRole("CLIENT");
             client1.setPassword(SecurityService.passwordEncoder().encode("1234"));
             clientRepository.save(client1);
@@ -52,6 +55,9 @@ public class Application implements AppShellConfigurator {
             client2.setLastName("Guardiola");
             client2.setPhoneNumber("123456789");
             client2.setEmail("pepguardiola@gmail.com");
+            client2.setRoaming(false);
+            client2.setDatosCompartidos(false);
+            client2.setNumerosBloqueados(false);
             client2.setRole("CLIENT");
             client2.setPassword(SecurityService.passwordEncoder().encode("barcelona"));
             clientRepository.save(client2);
@@ -112,11 +118,14 @@ public class Application implements AppShellConfigurator {
             Client listClients1 = new Client();
             service1.setType("Fibra");
             service1.setPrice("19.99");
+            service1.setDateService(LocalDateTime.now());
+            service1.setValidated(true);
             service1.setDescription("Especificaciones de tu router, además de detalles de tu oferta contratada como la velocidad de subida y bajada");
             List<Client> cliente = new ArrayList<Client>();
             cliente.add(client2);
             service1.setClient(client1);
             servicioRepository.save(service1);
+
 
             Servicio service2 = new Servicio();
             List<Client> listClients2 = new ArrayList<Client>();
@@ -124,6 +133,8 @@ public class Application implements AppShellConfigurator {
             listClients2.add(client2);
             service2.setType("Fijo");
             service2.setPrice("15.99");
+            service2.setDateService(LocalDateTime.now());
+            service2.setValidated(false);
             service2.setDescription("Conocer qué tiene y cómo es la tarifa que esté actualmente activada, además de todos los extras y la actualización del consumo realizado.");
             List<Client> clienteA = new ArrayList<Client>();
             clienteA.add(client1);

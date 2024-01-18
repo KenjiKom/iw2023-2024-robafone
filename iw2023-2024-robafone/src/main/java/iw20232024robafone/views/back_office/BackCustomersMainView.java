@@ -59,20 +59,28 @@ public class BackCustomersMainView extends VerticalLayout {
         Grid<Client> gridClient = new Grid<>(Client.class, false);
 
         Grid.Column<Client> usernameColumn = gridClient
-                .addColumn(Client::getUsername).setHeader("Username");
+                .addColumn(Client::getUsername).setHeader("Username").setSortable(true);
 
         Grid.Column<Client> firstColumn = gridClient
-                .addColumn(Client::getFirstName).setHeader("First Name");
+                .addColumn(Client::getFirstName).setHeader("First Name").setSortable(true);
 
         Grid.Column<Client> lastColumn = gridClient
-                .addColumn(Client::getLastName).setHeader("Last Name");
+                .addColumn(Client::getLastName).setHeader("Last Name").setSortable(true);
 
         Grid.Column<Client> emailColumn = gridClient
-                .addColumn(Client::getEmail).setHeader("Email");
+                .addColumn(Client::getEmail).setHeader("Email").setSortable(true);
 
         Grid.Column<Client> phoneColumn = gridClient
-                .addColumn(Client::getPhoneNumber).setHeader("Phone Number");
+                .addColumn(Client::getPhoneNumber).setHeader("Phone Number").setSortable(true);
 
+        Grid.Column<Client> roamingColumn = gridClient
+                .addColumn(Client::getRoaming).setHeader("Roaming").setSortable(true);
+
+        Grid.Column<Client> datosCompColumn = gridClient
+                .addColumn(Client::getDatosCompartidos).setHeader("Share Data").setSortable(true);
+
+        Grid.Column<Client> blockNumberColumn = gridClient
+                .addColumn(Client::getNumerosBloqueados).setHeader("Block Numbers").setSortable(true);
 
 
 

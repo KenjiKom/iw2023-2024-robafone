@@ -44,7 +44,18 @@ public class ServicioService {
         List<Servicio> complaintsOfUser = new ArrayList();
         List<Servicio> complaintList = servicioRepository.findAll();
         for(int i = 0; i< complaintList.size(); i++){
-            if(complaintList.get(i).getClient().getUsername().equals(username)){
+            if(complaintList.get(i).getClient().getUsername().equals(username) && complaintList.get(i).getValidated() == true){
+                complaintsOfUser.add(complaintList.get(i));
+            }
+        }
+        return complaintsOfUser;
+    }
+
+    public List<Servicio> findServicioByValidation(){
+        List<Servicio> complaintsOfUser = new ArrayList();
+        List<Servicio> complaintList = servicioRepository.findAll();
+        for(int i = 0; i< complaintList.size(); i++){
+            if(!complaintList.get(i).getValidated()){
                 complaintsOfUser.add(complaintList.get(i));
             }
         }

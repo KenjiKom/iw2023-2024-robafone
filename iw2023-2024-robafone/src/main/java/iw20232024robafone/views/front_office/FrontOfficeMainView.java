@@ -194,17 +194,69 @@ public class FrontOfficeMainView extends VerticalLayout {
 
         tabSheet.add("Download Bills",
                 new Div(new Text("Download your past bills"), grid));
+
         //End of components of 3rd tab---------------------------------------
+        Grid<Client> activateOptions = new Grid<>(Client.class,false);
+        List<Client> activateOptionsList = new ArrayList<>();
+        activateOptionsList.add(currentClient);
 
+        activateOptions.addColumn(Client::getRoaming).setHeader("Roaming Activated").setSortable(true);
+        activateOptions.addColumn(Client::getDatosCompartidos).setHeader("Share Data Activated").setSortable(true);
+        activateOptions.addColumn(Client::getNumerosBloqueados).setHeader("Block Numbers Activated").setSortable(true);
 
-        MultiSelectComboBox<String> multiSelectComboBox = new MultiSelectComboBox<>();
-        multiSelectComboBox.setItems("Activate Roaming","Activate Share Data","Activate Block Special Numbers");
-        Button sendConfig = new Button("Send Configuration", buttonClickEvent -> {
+        activateOptions.setItems(activateOptionsList);
 
+        Client finalCurrentClient1 = currentClient;
+        HorizontalLayout roamingLayout = new HorizontalLayout();
+        Button roamingButton = new Button("Active Roaming", buttonClickEvent -> {
+            finalCurrentClient1.setRoaming(true);
+            clientService.save(finalCurrentClient1);
+            Notification.show("Roaming Activated");
+            UI.getCurrent().getPage().reload();
         });
-        sendConfig.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        Button deleteRoamingButton = new Button("Deactivate Roaming", buttonClickEvent -> {
+            finalCurrentClient1.setRoaming(false);
+            clientService.save(finalCurrentClient1);
+            Notification.show("Roaming Deactivated");
+            UI.getCurrent().getPage().reload();
+        });
+        deleteRoamingButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        roamingLayout.add(roamingButton,deleteRoamingButton);
+
+        HorizontalLayout datosCompLayout = new HorizontalLayout();
+        Button datosCompButton = new Button("Active Share Data", buttonClickEvent -> {
+            finalCurrentClient1.setDatosCompartidos(true);
+            clientService.save(finalCurrentClient1);
+            Notification.show("Data Share Activated");
+            UI.getCurrent().getPage().reload();
+        });
+        Button deleteDatosCompButton = new Button("Deactivate Share Data", buttonClickEvent -> {
+            finalCurrentClient1.setDatosCompartidos(false);
+            clientService.save(finalCurrentClient1);
+            Notification.show("Data Share Deactivated");
+            UI.getCurrent().getPage().reload();
+        });
+        deleteDatosCompButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        datosCompLayout.add(datosCompButton,deleteDatosCompButton);
+
+        HorizontalLayout blockButtonLayout  = new HorizontalLayout();
+        Button blockButton = new Button("Active Block Numbers", buttonClickEvent -> {
+            finalCurrentClient1.setNumerosBloqueados(true);
+            clientService.save(finalCurrentClient1);
+            Notification.show("Block Numbers Activated");
+            UI.getCurrent().getPage().reload();
+        });
+        Button deleteBlockButton = new Button("Active Block Numbers", buttonClickEvent -> {
+            finalCurrentClient1.setNumerosBloqueados(false);
+            clientService.save(finalCurrentClient1);
+            Notification.show("Block Numbers Deactivated");
+            UI.getCurrent().getPage().reload();
+        });
+        deleteBlockButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        blockButtonLayout.add(blockButton,deleteBlockButton);
+        activateOptions.setHeight("100px");
         tabSheet.add("Activate Extra Options",
-                new VerticalLayout(new Text("Click to Activate These Options in Your Account"), multiSelectComboBox, sendConfig));
+                new VerticalLayout(new Text("Click to Activate These Options in Your Account"), activateOptions, roamingLayout, datosCompLayout, blockButtonLayout));
 
         //Components for 4th tab---------------------------------------------
         tabSheet.add("Share",

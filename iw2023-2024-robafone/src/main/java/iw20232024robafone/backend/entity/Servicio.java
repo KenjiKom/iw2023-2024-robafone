@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 @Transactional
 @Entity
@@ -22,6 +23,18 @@ public class Servicio extends AbstractEntity {
     @ManyToOne
     private Client client;
 
+    @NotNull
+    private Boolean validated;
+
+    @NotNull
+    private LocalDateTime dateService;
+
+    public LocalDateTime getDateService() { return dateService; }
+
+    public void setDateService(LocalDateTime dateService) { this.dateService = dateService; }
+
+    public Boolean getValidated(){return validated;}
+    public void setValidated(Boolean val){this.validated = val;}
     public String getType() {
         return type;
     }
@@ -53,4 +66,6 @@ public class Servicio extends AbstractEntity {
     public void setClient(Client client) {
         this.client = client;
     }
+
+
 }

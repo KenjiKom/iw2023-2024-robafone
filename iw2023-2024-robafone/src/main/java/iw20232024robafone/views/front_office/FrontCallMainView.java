@@ -53,9 +53,9 @@ public class FrontCallMainView extends VerticalLayout {
 
         Grid<Llamada> gridCalls = new Grid<>(Llamada.class, false);
 
-        gridCalls.addColumn(Llamada::getCallDate).setHeader("Date of Call");
-        gridCalls.addColumn(Llamada::getSender).setHeader("Called To");
-        gridCalls.addColumn(Llamada::getDuration).setHeader("Duration of The Call");
+        gridCalls.addColumn(Llamada::getCallDate).setHeader("Date of Call").setSortable(true);
+        gridCalls.addColumn(Llamada::getSender).setHeader("Called To").setSortable(true);
+        gridCalls.addColumn(Llamada::getDuration).setHeader("Duration of The Call").setSortable(true);
 
         gridCalls.setItems(llamadaService.findCallByUser(currentClient.getUsername()));
 

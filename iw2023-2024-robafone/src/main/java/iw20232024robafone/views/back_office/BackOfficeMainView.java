@@ -44,7 +44,10 @@ public class BackOfficeMainView extends VerticalLayout {
         fiberButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         Button customerButton = new Button("Manage Customers", event -> UI.getCurrent().navigate("customers"));
         customerButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        VerticalLayout formLayout = new VerticalLayout(fiberButton, customerButton);
+        Button validationButton = new Button("Activate Pending Services", event -> UI.getCurrent().navigate("pending"));
+        validationButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        VerticalLayout formLayout = new VerticalLayout(fiberButton, customerButton, validationButton);
+
 
         formLayout.setWidthFull();
         formLayout.setAlignItems(Alignment.STRETCH);

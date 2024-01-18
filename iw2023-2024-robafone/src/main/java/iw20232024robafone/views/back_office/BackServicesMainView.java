@@ -73,6 +73,12 @@ public class BackServicesMainView extends VerticalLayout {
         Grid.Column<Servicio> priceColumn = gridClient
                 .addColumn(Servicio::getPrice).setHeader("Price");
 
+        Grid.Column<Servicio> stateColumn = gridClient
+                .addColumn(Servicio::getValidated).setHeader("Is Validated");
+
+        Grid.Column<Servicio> dateColumn = gridClient
+                .addColumn(Servicio::getDateService).setHeader("Date");
+
 
         Editor<Servicio> editor = gridClient.getEditor();
 
@@ -127,6 +133,7 @@ public class BackServicesMainView extends VerticalLayout {
         List<Servicio> listServicio = servicioService.findAll();
 
 
+
         gridClient.setItems(listServicio);
 
         Button goBack = new Button("Go Back to Main Menu", buttonClickEvent -> UI.getCurrent().navigate("internal"));
@@ -136,6 +143,8 @@ public class BackServicesMainView extends VerticalLayout {
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.add(goBack);
         buttonLayout.setAlignItems(Alignment.START);
+
+
 
         add(createHeaderContent(), new H2("Manage Services"), gridClient, buttonLayout);
 
