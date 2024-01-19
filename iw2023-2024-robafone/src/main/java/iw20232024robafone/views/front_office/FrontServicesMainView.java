@@ -8,14 +8,19 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.dataview.GridListDataView;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import iw20232024robafone.backend.entity.Client;
 import iw20232024robafone.backend.entity.Servicio;
@@ -51,7 +56,14 @@ public class FrontServicesMainView extends VerticalLayout {
             }
         }
 
-        Grid<Servicio> gridCalls = new Grid<>(Servicio.class, true);
+        Grid<Servicio> gridCalls = new Grid<>(Servicio.class, false);
+
+        gridCalls.addColumn(Servicio::getClient).setHeader("Client Name");
+        gridCalls.addColumn(Servicio::getType).setHeader("Type of Service");
+        gridCalls.addColumn(Servicio::getDescription).setHeader("Description");
+        gridCalls.addColumn(Servicio::getGigas).setHeader("Gigas");
+        gridCalls.addColumn(Servicio::getPrice).setHeader("Price");
+        gridCalls.addColumn(Servicio::getValidated).setHeader("Is Validated By Employee?");
 
         gridCalls.addSelectionListener(selection -> {
             Optional<Servicio> optionalPerson = selection.getFirstSelectedItem();
@@ -69,6 +81,36 @@ public class FrontServicesMainView extends VerticalLayout {
         }
         gridCalls.setItems( servicioService.findServiciotByUser(currentClient.getUsername()));
 
+
+        GridListDataView<Servicio> dataView = gridCalls.setItems(servicioService.findServiciotByUser(currentClient.getUsername()));
+
+        TextField searchField = new TextField();
+        searchField.setWidth("50%");
+        searchField.setPlaceholder("Search Username");
+        searchField.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
+        searchField.setValueChangeMode(ValueChangeMode.EAGER);
+        searchField.addValueChangeListener(e -> dataView.refreshAll());
+
+
+        dataView.addFilter(service -> {
+            String searchTerm = searchField.getValue().trim();
+
+            if (searchTerm.isEmpty())
+                return true;
+
+            boolean matchesFirstName = matchesTerm(service.getDescription(),
+                    searchTerm);
+
+            boolean matchesgigas = matchesTerm(service.getGigas(),
+                    searchTerm);
+
+            boolean matchesPrice = matchesTerm(service.getPrice(),
+                    searchTerm);
+
+            return matchesFirstName || matchesPrice || matchesgigas;
+        });
+
+
         Button goBack = new Button("Go Back to Main Menu", buttonClickEvent -> UI.getCurrent().navigate("client"));
         goBack.setWidth("120px");
         goBack.setSizeFull();
@@ -77,7 +119,7 @@ public class FrontServicesMainView extends VerticalLayout {
         buttonLayout.add(goBack);
         buttonLayout.setAlignItems(Alignment.START);
 
-        add(createHeaderContent(), new H2("Registry of Calls"), new H3("Select Services to Unsubscribe"), gridCalls, buttonLayout);
+        add(createHeaderContent(), new H2("Active Services of User"), new H3("Select Services to Unsubscribe"),searchField, gridCalls, buttonLayout);
 
     }
     private Component createHeaderContent() {
@@ -120,5 +162,9 @@ public class FrontServicesMainView extends VerticalLayout {
         layout.add(new H1(currentPrincipalName.toUpperCase() +", Welcome to Robafone Internal"));
 
         return layout;
+    }
+
+    private boolean matchesTerm(String value, String searchTerm) {
+        return value.toLowerCase().contains(searchTerm.toLowerCase());
     }
 }
