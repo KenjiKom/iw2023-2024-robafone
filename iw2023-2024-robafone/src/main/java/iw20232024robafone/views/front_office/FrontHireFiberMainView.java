@@ -91,6 +91,7 @@ public class FrontHireFiberMainView extends VerticalLayout {
                 Servicio newServicio = new Servicio();
                 newServicio.setDescription(description.getText());
                 newServicio.setPrice(selection.getFirstSelectedItem().get().getPrecio());
+                newServicio.setGigas(selection.getFirstSelectedItem().get().getGigas());
                 newServicio.setType("Fibra");
                 newServicio.setValidated(false);
                 newServicio.setClient(finalCurrentClient);

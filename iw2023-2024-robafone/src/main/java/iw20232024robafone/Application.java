@@ -118,6 +118,7 @@ public class Application implements AppShellConfigurator {
             Client listClients1 = new Client();
             service1.setType("Fibra");
             service1.setPrice("19.99");
+            service1.setGigas("10");
             service1.setDateService(LocalDateTime.now());
             service1.setValidated(true);
             service1.setDescription("Especificaciones de tu router, además de detalles de tu oferta contratada como la velocidad de subida y bajada");
@@ -133,6 +134,7 @@ public class Application implements AppShellConfigurator {
             listClients2.add(client2);
             service2.setType("Fijo");
             service2.setPrice("15.99");
+            service2.setGigas("5");
             service2.setDateService(LocalDateTime.now());
             service2.setValidated(false);
             service2.setDescription("Conocer qué tiene y cómo es la tarifa que esté actualmente activada, además de todos los extras y la actualización del consumo realizado.");

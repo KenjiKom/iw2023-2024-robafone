@@ -93,6 +93,7 @@ public class FrontHirePhoneMainView extends VerticalLayout {
                 Servicio newServicio = new Servicio();
                 newServicio.setDescription(description.getText());
                 newServicio.setPrice(selection.getFirstSelectedItem().get().getPrecio());
+                newServicio.setGigas(selection.getFirstSelectedItem().get().getGigas());
                 newServicio.setType("Phone");
                 newServicio.setValidated(false);
                 newServicio.setClient(finalCurrentClient);

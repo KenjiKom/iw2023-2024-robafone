@@ -18,6 +18,9 @@ public class Servicio extends AbstractEntity {
     private String price;
 
     @NotNull
+    private String gigas;
+
+    @NotNull
     private String description = "";
 
     @ManyToOne
@@ -49,6 +52,14 @@ public class Servicio extends AbstractEntity {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getGigas() {
+        return gigas;
+    }
+
+    public void setGigas(String gigas) {
+        this.gigas = gigas;
     }
 
     public String getDescription() {
