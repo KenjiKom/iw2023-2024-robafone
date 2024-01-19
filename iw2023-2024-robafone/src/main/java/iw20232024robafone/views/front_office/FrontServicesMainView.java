@@ -65,12 +65,22 @@ public class FrontServicesMainView extends VerticalLayout {
         gridCalls.addColumn(Servicio::getPrice).setHeader("Price");
         gridCalls.addColumn(Servicio::getValidated).setHeader("Is Validated By Employee?");
 
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+
         gridCalls.addSelectionListener(selection -> {
             Optional<Servicio> optionalPerson = selection.getFirstSelectedItem();
             if (optionalPerson.isPresent()) {
-                servicioService.delete(optionalPerson.get());
-                gridCalls.setItems(servicioService.findAll());
-                Notification.show("Complaint Marked as Resolved");
+
+                Button deleteButton = new Button("Unsubscribe to Service", e ->{
+                    servicioService.delete(optionalPerson.get());
+                    gridCalls.setItems(servicioService.findAll());
+                    Notification.show("Unsubscribed Succesfully");
+                    UI.getCurrent().getPage().reload();
+                });
+
+                deleteButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+
+                add(deleteButton);
             }
         });
 
@@ -115,7 +125,6 @@ public class FrontServicesMainView extends VerticalLayout {
         goBack.setWidth("120px");
         goBack.setSizeFull();
 
-        HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.add(goBack);
         buttonLayout.setAlignItems(Alignment.START);
 
