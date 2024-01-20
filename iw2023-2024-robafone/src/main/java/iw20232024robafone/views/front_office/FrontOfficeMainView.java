@@ -275,6 +275,12 @@ public class FrontOfficeMainView extends VerticalLayout {
         add(createHeaderContent(), tabSheet);
 
     }
+
+    /*
+     * Function createHeaderComponent:
+     *       Input: Nothing
+     *       Output: A component in the form of a header. Can be used in any of the views.
+     * */
     private Component createHeaderContent() {
         HorizontalLayout layout = new HorizontalLayout();
 
