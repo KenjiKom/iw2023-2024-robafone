@@ -103,31 +103,7 @@ public class FrontHireFiberMainView extends VerticalLayout {
             hireRateButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
             add(hireRateButton);
         });
-
-/*
-        Client finalCurrentClient = currentClient;
-        Button hireService = new Button("Hire this service", buttonClickEvent -> {
-            if(gigas.equals("0") || gigas.equals("00") || gigas.equals("000") || gigas.equals("0000") || gigas.equals("000000") || gigas.equals("0000000")){
-                Notification.show("Dont try to scam us");
-            }else {
-                String precio = gigas.getValue();
-                Integer precioInt = Integer.parseInt(precio) * 5;
-                String precioFinal = String.valueOf(precioInt);
-                Servicio newServicio = new Servicio();
-                newServicio.setDescription(description.getText());
-                newServicio.setPrice(precioFinal);
-                newServicio.setType("Fibra");
-                newServicio.setValidated(false);
-
-                newServicio.setClient(finalCurrentClient);
-                servicioService.save(newServicio);
-                Notification.show("Service Hired!");
-                UI.getCurrent().navigate("client");
-            }
-        });
-        hireService.addThemeVariants(ButtonVariant.LUMO_PRIMARY);*/
-
-
+        
         add(createHeaderContent(), new H2("Hire Fiber With Robafone"),description,texto, tarifaGrid ,buttonLayout);
 
     }
