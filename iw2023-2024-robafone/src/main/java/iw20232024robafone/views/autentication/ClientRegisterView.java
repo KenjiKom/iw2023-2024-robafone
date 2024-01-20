@@ -86,6 +86,15 @@ public class ClientRegisterView extends VerticalLayout {
         add(title, validEmailField,username,firstName,lastName,phone, passwordField, repeatPasswordField, primaryButton);
     }
 
+
+    /*
+    * Function: Register
+    *
+    *       Input: String email, String p1, String p2, String username, String firstName, String lastname, String phone, ClientService clientService
+    *       Output: The user is succesfuly registerred or if he has made a mistake, an error notification.
+    *
+    *
+    * */
     private void Register(String email, String p1, String p2, String username, String firstName, String lastname, String phone, ClientService clientService){
         if(email.isEmpty()){
             Notification.show("Email is empty");
@@ -95,8 +104,6 @@ public class ClientRegisterView extends VerticalLayout {
             Notification.show("Passwords are not equal");
         } else {
             List<Client> listaClientes = clientService.findAll();
-
-            //List<Client> listaClientestTest = clientRepository.findAll();
 
             Boolean existeCliente = false;
 

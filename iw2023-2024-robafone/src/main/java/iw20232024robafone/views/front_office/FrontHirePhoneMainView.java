@@ -72,12 +72,14 @@ public class FrontHirePhoneMainView extends VerticalLayout {
         H3 texto = new H3("Select the desired rate");
         List<Tarifa> listTarifas = tarifaService.findAll();
 
+        //Filter all the tarifas so we only get the fiber ones
         for (int i = 0; i < listTarifas.size(); i++){
             if(listTarifas.get(i).getTipo().equals("Fiber")){
                 listTarifas.remove(i);
             }
         }
 
+        //Create a Tarifa Grid
         Grid<Tarifa> tarifaGrid = new Grid<>(Tarifa.class, false);
 
         tarifaGrid.addColumn(Tarifa::getGigas).setHeader("Gigas");
@@ -85,11 +87,15 @@ public class FrontHirePhoneMainView extends VerticalLayout {
 
         tarifaGrid.setHeight("50px");
 
+        //Set the items to the grid
         tarifaGrid.setItems(listTarifas);
 
+        //Save the current client in a final variable.
         Client finalCurrentClient = currentClient;
         tarifaGrid.addSelectionListener(selection->{
             Button hireRateButton = new Button("Hire this Service", e->{
+                //If the user selected the hire this service, create a new service, popupate it
+                //and save it in the repository.
                 Servicio newServicio = new Servicio();
                 newServicio.setDescription(description.getText());
                 newServicio.setPrice(selection.getFirstSelectedItem().get().getPrecio());
@@ -106,36 +112,15 @@ public class FrontHirePhoneMainView extends VerticalLayout {
             add(hireRateButton);
         });
 
-        /*
-
-        Client finalCurrentClient = currentClient;
-        Button hireService = new Button("Hire this service", buttonClickEvent -> {
-            if(gigas.equals("0") || gigas.equals("00") || gigas.equals("000") || gigas.equals("0000") || gigas.equals("000000") || gigas.equals("0000000")){
-                Notification.show("Dont try to scam us");
-            }else {
-                String precio = gigas.getValue();
-                Integer precioInt = Integer.parseInt(precio) * 3;
-                String precioFinal = String.valueOf(precioInt);
-                Servicio newServicio = new Servicio();
-                newServicio.setDescription(description.getText());
-                newServicio.setPrice(precioFinal);
-                newServicio.setType("Fijo");
-                newServicio.setValidated(false);
-
-                List<Client> cliente = new ArrayList<Client>();
-                cliente.add(finalCurrentClient);
-                newServicio.setClient(finalCurrentClient);
-                servicioService.save(newServicio);
-                Notification.show("Service Hired!");
-                UI.getCurrent().navigate("client");
-            }
-        });
-        hireService.addThemeVariants(ButtonVariant.LUMO_PRIMARY);*/
-
-
         add(createHeaderContent(), new H2("Hire Phone With Robafone"),description, texto, tarifaGrid,buttonLayout);
 
     }
+
+    /*
+     * Function createHeaderComponent:
+     *       Input: Nothing
+     *       Output: A component in the form of a header. Can be used in any of the views.
+     * */
     private Component createHeaderContent() {
         HorizontalLayout layout = new HorizontalLayout();
 

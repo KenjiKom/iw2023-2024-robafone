@@ -53,6 +53,7 @@ public class FrontHireFiberMainView extends VerticalLayout {
             }
         }
 
+        //Add the go back button
         Button goBack = new Button("Go Back to Main Menu", buttonClickEvent -> UI.getCurrent().navigate("client"));
         goBack.setWidth("120px");
         goBack.setSizeFull();
@@ -62,14 +63,18 @@ public class FrontHireFiberMainView extends VerticalLayout {
         buttonLayout.add(goBack);
         buttonLayout.setAlignItems(Alignment.START);
 
+        //Add the description of the service.
         Text description = new Text("Fiber-optic internet, commonly called fiber internet or simply “fiber,” is a broadband connection that can reach speeds of up to 10 Gigabits per second (Gbps) in some areas.");
         TextField gigas = new TextField("Choose GB's ($5 per GB)");
         gigas.setWidth("250px");
 
 
+        //Now the user can select a desired rate.
         H3 texto = new H3("Select the desired rate");
         List<Tarifa> listTarifas = tarifaService.findAll();
 
+
+        //Filter through the rates to only get the ones needed
         for (int i = 0; i < listTarifas.size(); i++){
             if(listTarifas.get(i).getTipo().equals("Phone")){
                 listTarifas.remove(i);
@@ -104,33 +109,15 @@ public class FrontHireFiberMainView extends VerticalLayout {
             add(hireRateButton);
         });
 
-/*
-        Client finalCurrentClient = currentClient;
-        Button hireService = new Button("Hire this service", buttonClickEvent -> {
-            if(gigas.equals("0") || gigas.equals("00") || gigas.equals("000") || gigas.equals("0000") || gigas.equals("000000") || gigas.equals("0000000")){
-                Notification.show("Dont try to scam us");
-            }else {
-                String precio = gigas.getValue();
-                Integer precioInt = Integer.parseInt(precio) * 5;
-                String precioFinal = String.valueOf(precioInt);
-                Servicio newServicio = new Servicio();
-                newServicio.setDescription(description.getText());
-                newServicio.setPrice(precioFinal);
-                newServicio.setType("Fibra");
-                newServicio.setValidated(false);
-
-                newServicio.setClient(finalCurrentClient);
-                servicioService.save(newServicio);
-                Notification.show("Service Hired!");
-                UI.getCurrent().navigate("client");
-            }
-        });
-        hireService.addThemeVariants(ButtonVariant.LUMO_PRIMARY);*/
-
-
         add(createHeaderContent(), new H2("Hire Fiber With Robafone"),description,texto, tarifaGrid ,buttonLayout);
 
     }
+
+    /*
+     * Function createHeaderComponent:
+     *       Input: Nothing
+     *       Output: A component in the form of a header. Can be used in any of the views.
+     * */
     private Component createHeaderContent() {
         HorizontalLayout layout = new HorizontalLayout();
 

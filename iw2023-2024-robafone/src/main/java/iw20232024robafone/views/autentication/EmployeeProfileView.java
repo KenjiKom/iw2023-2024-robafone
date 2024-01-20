@@ -79,44 +79,6 @@ public class EmployeeProfileView extends VerticalLayout {
 
         userLayout.add(username, firstname, lastName, phoneNumber);
 
-        /*
-
-        FormLayout passwordLayout = new FormLayout();
-
-        PasswordField oldPassword = new PasswordField("Old Password");
-
-        PasswordField newPassword = new PasswordField("New Password");
-
-        PasswordField repeatNewPassword = new PasswordField("Repeat New Password");
-
-        Button changePasswordButton = new Button("Change Password", e->{
-
-            String oldPasswordEncoded = SecurityService.passwordEncoder().encode(oldPassword.getValue());
-            String newPasswordEncoded = SecurityService.passwordEncoder().encode(newPassword.getValue());
-            String repeatPasswordEncoded = SecurityService.passwordEncoder().encode(repeatNewPassword.getValue());
-
-            if(!oldPasswordEncoded.equals(finalCurrentClient.getPassword())){
-                Notification.show("Old Password Incorrect");
-            } else if (!newPasswordEncoded.equals(repeatPasswordEncoded)) {
-                Notification.show("Repeated Password Incorrect");
-            } else if (newPasswordEncoded.isEmpty()) {
-                Notification.show("New Password Empty");
-            } else if (repeatPasswordEncoded.isEmpty()) {
-                Notification.show("Repeated Password Empty");
-            } else{
-                finalCurrentClient.setPassword(newPasswordEncoded);
-                clientService.save(finalCurrentClient);
-                UI.getCurrent().getPage().reload();
-            }
-        });
-
-        changePasswordButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
-        passwordLayout.add(oldPassword, newPassword, repeatNewPassword);
-
-
-         */
-
         VerticalLayout formLayout = new VerticalLayout();
 
         formLayout.add(userLayout, changeInfoButton);
@@ -126,6 +88,12 @@ public class EmployeeProfileView extends VerticalLayout {
         }));
 
     }
+
+    /*
+     * Function createHeaderComponent:
+     *       Input: Nothing
+     *       Output: A component in the form of a header. Can be used in any of the views.
+     * */
     private Component createHeaderContent() {
         HorizontalLayout layout = new HorizontalLayout();
 

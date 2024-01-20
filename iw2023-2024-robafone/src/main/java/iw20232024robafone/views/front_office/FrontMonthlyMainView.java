@@ -33,7 +33,7 @@ import java.util.List;
 @Route("monthly")
 public class FrontMonthlyMainView extends VerticalLayout {
     private final SecurityService securityService;
-    public FrontMonthlyMainView(SecurityService securityService, EmployeeService employeeService, ComplaintService complaintService, ClientService clientService, SmsService smsService, LlamadaService llamadaService) {
+    public FrontMonthlyMainView(SecurityService securityService, ClientService clientService, SmsService smsService, LlamadaService llamadaService) {
         this.securityService = securityService;
 
         //Set the layout to be centered in the page.
@@ -105,6 +105,12 @@ public class FrontMonthlyMainView extends VerticalLayout {
         add(createHeaderContent(), new H2("Monthly Registry of Calls"),gridCalls, new H2("Monthly Registry of SMS"),gridSms, buttonLayout);
 
     }
+
+    /*
+     * Function createHeaderComponent:
+     *       Input: Nothing
+     *       Output: A component in the form of a header. Can be used in any of the views.
+     * */
     private Component createHeaderContent() {
         HorizontalLayout layout = new HorizontalLayout();
 
