@@ -51,6 +51,7 @@ public class FrontCallMainView extends VerticalLayout {
             }
         }
 
+        //Create a llamada class grid for our callas registry
         Grid<Llamada> gridCalls = new Grid<>(Llamada.class, false);
 
         gridCalls.addColumn(Llamada::getCallDate).setHeader("Date of Call").setSortable(true);
@@ -59,6 +60,7 @@ public class FrontCallMainView extends VerticalLayout {
 
         gridCalls.setItems(llamadaService.findCallByUser(currentClient.getUsername()));
 
+        //Add the go back button so the user can go back to the main menu.
         Button goBack = new Button("Go Back to Main Menu", buttonClickEvent -> UI.getCurrent().navigate("client"));
         goBack.setWidth("120px");
         goBack.setSizeFull();
@@ -70,6 +72,12 @@ public class FrontCallMainView extends VerticalLayout {
         add(createHeaderContent(), new H2("Registry of Calls"), gridCalls, buttonLayout);
 
     }
+
+    /*
+     * Function createHeaderComponent:
+     *       Input: Nothing
+     *       Output: A component in the form of a header. Can be used in any of the views.
+     * */
     private Component createHeaderContent() {
         HorizontalLayout layout = new HorizontalLayout();
 
