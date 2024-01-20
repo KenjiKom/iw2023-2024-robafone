@@ -199,30 +199,46 @@ public class FrontOfficeMainView extends VerticalLayout {
                 new Div(new Text("Download your past bills"), grid));
 
         //End of components of 3rd tab---------------------------------------
+
+
+
+        //Components for Activate Options Tab
+
+        //creation of grid with all the options.
         Grid<Client> activateOptions = new Grid<>(Client.class,false);
         List<Client> activateOptionsList = new ArrayList<>();
         activateOptionsList.add(currentClient);
 
+        //Set the columns of the grid, with the sortable options.
         activateOptions.addColumn(Client::getRoaming).setHeader("Roaming Activated").setSortable(true);
         activateOptions.addColumn(Client::getDatosCompartidos).setHeader("Share Data Activated").setSortable(true);
         activateOptions.addColumn(Client::getNumerosBloqueados).setHeader("Block Numbers Activated").setSortable(true);
 
+        //Set the items of the grid.
         activateOptions.setItems(activateOptionsList);
 
+        //Save the client in a final client variable
         Client finalCurrentClient1 = currentClient;
+
+
         HorizontalLayout roamingLayout = new HorizontalLayout();
+
+        //Button for activate the Roaming Option
         Button roamingButton = new Button("Activate Roaming", buttonClickEvent -> {
             finalCurrentClient1.setRoaming(true);
             clientService.save(finalCurrentClient1);
             Notification.show("Roaming Activated");
             UI.getCurrent().getPage().reload();
         });
+
+        //Button for deactivate the roaming option
         Button deleteRoamingButton = new Button("Deactivate Roaming", buttonClickEvent -> {
             finalCurrentClient1.setRoaming(false);
             clientService.save(finalCurrentClient1);
             Notification.show("Roaming Deactivated");
             UI.getCurrent().getPage().reload();
         });
+        //Options of the buttons and addition to a roaming layout
         deleteRoamingButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         roamingLayout.add(roamingButton,deleteRoamingButton);
 
@@ -275,7 +291,6 @@ public class FrontOfficeMainView extends VerticalLayout {
         add(createHeaderContent(), tabSheet);
 
     }
-
     /*
      * Function createHeaderComponent:
      *       Input: Nothing
