@@ -53,6 +53,7 @@ public class FrontHireFiberMainView extends VerticalLayout {
             }
         }
 
+        //Add the go back button
         Button goBack = new Button("Go Back to Main Menu", buttonClickEvent -> UI.getCurrent().navigate("client"));
         goBack.setWidth("120px");
         goBack.setSizeFull();
@@ -62,14 +63,18 @@ public class FrontHireFiberMainView extends VerticalLayout {
         buttonLayout.add(goBack);
         buttonLayout.setAlignItems(Alignment.START);
 
+        //Add the description of the service.
         Text description = new Text("Fiber-optic internet, commonly called fiber internet or simply “fiber,” is a broadband connection that can reach speeds of up to 10 Gigabits per second (Gbps) in some areas.");
         TextField gigas = new TextField("Choose GB's ($5 per GB)");
         gigas.setWidth("250px");
 
 
+        //Now the user can select a desired rate.
         H3 texto = new H3("Select the desired rate");
         List<Tarifa> listTarifas = tarifaService.findAll();
 
+
+        //Filter through the rates to only get the ones needed
         for (int i = 0; i < listTarifas.size(); i++){
             if(listTarifas.get(i).getTipo().equals("Phone")){
                 listTarifas.remove(i);
@@ -103,10 +108,16 @@ public class FrontHireFiberMainView extends VerticalLayout {
             hireRateButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
             add(hireRateButton);
         });
-        
+
         add(createHeaderContent(), new H2("Hire Fiber With Robafone"),description,texto, tarifaGrid ,buttonLayout);
 
     }
+
+    /*
+     * Function createHeaderComponent:
+     *       Input: Nothing
+     *       Output: A component in the form of a header. Can be used in any of the views.
+     * */
     private Component createHeaderContent() {
         HorizontalLayout layout = new HorizontalLayout();
 
