@@ -45,6 +45,7 @@ public class ClientProfileView extends VerticalLayout {
         setSizeFull();
         setAlignItems(Alignment.STRETCH);
 
+        //Get the Autentication Information
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
@@ -57,6 +58,8 @@ public class ClientProfileView extends VerticalLayout {
             }
         }
 
+
+        //Now the userlayout is created and populated
         FormLayout userLayout = new FormLayout();
 
         TextField username = new TextField("Username");
@@ -71,57 +74,24 @@ public class ClientProfileView extends VerticalLayout {
         TextField phoneNumber = new TextField("Phone Number");
         phoneNumber.setValue(currentClient.getPhoneNumber());
 
+        //Pass the current client to a final variable
         Client finalCurrentClient = currentClient;
         Button changeInfoButton = new Button("Change User Information", e -> {
+            //If the user has clicked the button, set the new information and save to the repository
             finalCurrentClient.setUsername(username.getValue());
             finalCurrentClient.setFirstName(firstname.getValue());
             finalCurrentClient.setLastName(lastName.getValue());
             finalCurrentClient.setPhoneNumber(phoneNumber.getValue());
             clientService.save(finalCurrentClient);
+
+            //Finally, reload the page
             UI.getCurrent().getPage().reload();
         });
         changeInfoButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         userLayout.add(username, firstname, lastName, phoneNumber);
 
-        /*
-
-        FormLayout passwordLayout = new FormLayout();
-
-        PasswordField oldPassword = new PasswordField("Old Password");
-
-        PasswordField newPassword = new PasswordField("New Password");
-
-        PasswordField repeatNewPassword = new PasswordField("Repeat New Password");
-
-        Button changePasswordButton = new Button("Change Password", e->{
-
-            String oldPasswordEncoded = SecurityService.passwordEncoder().encode(oldPassword.getValue());
-            String newPasswordEncoded = SecurityService.passwordEncoder().encode(newPassword.getValue());
-            String repeatPasswordEncoded = SecurityService.passwordEncoder().encode(repeatNewPassword.getValue());
-
-            if(!oldPasswordEncoded.equals(finalCurrentClient.getPassword())){
-                Notification.show("Old Password Incorrect");
-            } else if (!newPasswordEncoded.equals(repeatPasswordEncoded)) {
-                Notification.show("Repeated Password Incorrect");
-            } else if (newPasswordEncoded.isEmpty()) {
-                Notification.show("New Password Empty");
-            } else if (repeatPasswordEncoded.isEmpty()) {
-                Notification.show("Repeated Password Empty");
-            } else{
-                finalCurrentClient.setPassword(newPasswordEncoded);
-                clientService.save(finalCurrentClient);
-                UI.getCurrent().getPage().reload();
-            }
-        });
-
-        changePasswordButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
-        passwordLayout.add(oldPassword, newPassword, repeatNewPassword);
-
-
-         */
-
+        //Let´s create a new vertical layout for the page info
         VerticalLayout formLayout = new VerticalLayout();
 
         formLayout.add(userLayout, changeInfoButton);
@@ -131,6 +101,12 @@ public class ClientProfileView extends VerticalLayout {
         }));
 
     }
+
+    /*
+    * Function createHeaderComponent:
+    *       Input: Nothing
+    *       Output: A component in the form of a header. Can be used in any of the views.
+    * */
     private Component createHeaderContent() {
         HorizontalLayout layout = new HorizontalLayout();
 
@@ -141,6 +117,7 @@ public class ClientProfileView extends VerticalLayout {
         layout.setSpacing(true);
         layout.setAlignItems(Alignment.CENTER);
 
+        //New meu bar
         MenuBar menuBar = new MenuBar();
 
         Div icon = new Div(new Avatar());
@@ -150,6 +127,8 @@ public class ClientProfileView extends VerticalLayout {
         MenuItem item = menuBar.addItem(icon);
         item.getStyle().set("background-color", "transparent");
         SubMenu subItems = item.getSubMenu();
+
+        //Add the logout button.
         Button logout = new Button("Log out ", e -> securityService.logout());
         logout.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
