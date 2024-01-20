@@ -88,6 +88,12 @@ public class EmployeeProfileView extends VerticalLayout {
         }));
 
     }
+
+    /*
+     * Function createHeaderComponent:
+     *       Input: Nothing
+     *       Output: A component in the form of a header. Can be used in any of the views.
+     * */
     private Component createHeaderContent() {
         HorizontalLayout layout = new HorizontalLayout();
 
