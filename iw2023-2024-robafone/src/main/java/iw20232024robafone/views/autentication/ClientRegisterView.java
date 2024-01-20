@@ -105,8 +105,6 @@ public class ClientRegisterView extends VerticalLayout {
         } else {
             List<Client> listaClientes = clientService.findAll();
 
-            //List<Client> listaClientestTest = clientRepository.findAll();
-
             Boolean existeCliente = false;
 
             for (int i =0; i< listaClientes.size() && existeCliente == false; i++){
