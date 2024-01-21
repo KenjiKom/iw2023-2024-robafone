@@ -90,6 +90,27 @@ public class Application implements AppShellConfigurator {
             llamada1.setClient(client1);
             llamadaRepository.save(llamada1);
 
+            Llamada llamada3 = new Llamada();
+            llamada3.setCallDate(date1);
+            llamada3.setDuration(3.4);
+            llamada3.setSender("Antonio");
+            llamada3.setClient(client1);
+            llamadaRepository.save(llamada3);
+
+            Llamada llamada4 = new Llamada();
+            llamada4.setCallDate(date1);
+            llamada4.setDuration(1.6);
+            llamada4.setSender("Maria");
+            llamada4.setClient(client1);
+            llamadaRepository.save(llamada4);
+
+            Llamada llamada5 = new Llamada();
+            llamada5.setCallDate(date1);
+            llamada5.setDuration(6.4);
+            llamada5.setSender("Manoli");
+            llamada5.setClient(client1);
+            llamadaRepository.save(llamada5);
+
             Llamada llamada2 = new Llamada();
             LocalDateTime date2 = LocalDateTime.now();
             llamada2.setCallDate(date2);
@@ -109,10 +130,31 @@ public class Application implements AppShellConfigurator {
             Sms sms2 = new Sms();
             LocalDateTime date4 = LocalDateTime.now();
             sms2.setSmsDate(date4);
-            sms2.setMessage("Mi primera chamba");
-            sms2.setSender("Eladio");
+            sms2.setMessage("Vamos al gym?");
+            sms2.setSender("Miguel");
             sms2.setClient(client1);
             smsRepository.save(sms2);
+
+            Sms sms3 = new Sms();
+            sms3.setSmsDate(date4);
+            sms3.setMessage("Cata de vinos");
+            sms3.setSender("Luis");
+            sms3.setClient(client1);
+            smsRepository.save(sms3);
+
+            Sms sms4 = new Sms();
+            sms4.setSmsDate(date4);
+            sms4.setMessage("Me voy de la carrera");
+            sms4.setSender("Alejandro");
+            sms4.setClient(client1);
+            smsRepository.save(sms4);
+
+            Sms sms5 = new Sms();
+            sms5.setSmsDate(date4);
+            sms5.setMessage("Me regalaron EDNL");
+            sms5.setSender("Antonio");
+            sms5.setClient(client1);
+            smsRepository.save(sms5);
 
             Servicio service1 = new Servicio();
             Client listClients1 = new Client();
